@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Account — ADHD (에드헤드)</title>
+  <script>
+    // Redirect immediately before any rendering
+    const _s = sessionStorage.getItem('adhd_session');
+    if (!_s) window.location.replace('login.html');
+  </script>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body class="page-fade">
