@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drops — ADHD (에드헤드)</title>
+  <meta name="description" content="Limited edition drops from ADHD (에드헤드)." />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="page-fade">
+
+  <div class="announcement-bar">
+    Next Drop: 에드헤드 Vol. 3 — June 7 &nbsp;·&nbsp; Notify me below
+  </div>
+
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">ADHD<span class="ko">에드헤드</span></a>
+      <ul class="nav__links">
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="drops.html" class="drops-link">Drops</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav__actions">
+        <button class="search-btn">Search</button>
+        <button id="cartBtn">Bag <span class="nav__cart-count" id="cartCount">0</span></button>
+        <button class="nav__hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav__close" id="mobileNavClose">✕</button>
+    <a href="shop.html">Shop</a>
+    <a href="drops.html" class="drops-link">Drops</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer__header"><h2>Your Bag</h2><button id="cartClose">✕</button></div>
+    <div class="cart-drawer__body"><span>Your bag is empty.</span></div>
+    <div class="cart-drawer__footer"><a href="#" class="btn-checkout">Checkout</a></div>
+  </div>
+
+  <!-- Drops Hero — Next Drop Countdown -->
+  <section class="drops-hero">
+    <div class="drops-hero__bg-text">DROPS</div>
+    <div class="drops-hero__content container" style="padding:100px 40px 80px;">
+      <p class="hero__eyebrow">Limited Edition</p>
+      <h1 class="hero__title" style="color:var(--black);">
+        에드헤드<br />Vol. 3 — Hyperfocus
+      </h1>
+      <p class="hero__sub" style="color:#555;">
+        The next chapter drops June 7, 2026. A collection defined by obsession, isolation, and hyper-concentration. Limited units. Once it's gone, it's gone.
+      </p>
+      <div class="countdown" id="countdown"></div>
+      <div style="margin-top:8px;">
+        <a href="contact.html" class="btn btn--white" style="color:var(--black);background:var(--black);color:var(--white);">Notify Me</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <span>Vol. 3</span><span class="accent">Hyperfocus</span>
+      <span>June 7, 2026</span><span class="accent">·</span>
+      <span>Limited Units</span><span class="accent">·</span>
+      <span>ADHD</span><span class="accent">에드헤드</span>
+      <span>·</span>
+      <span>Vol. 3</span><span class="accent">Hyperfocus</span>
+      <span>June 7, 2026</span><span class="accent">·</span>
+      <span>Limited Units</span><span class="accent">·</span>
+      <span>ADHD</span><span class="accent">에드헤드</span>
+      <span>·</span>
+    </div>
+  </div>
+
+  <!-- Past Drops -->
+  <div class="container" style="padding-top:64px;">
+    <div class="section-header">
+      <h2 class="section-header__title">Past Drops</h2>
+    </div>
+  </div>
+
+  <!-- Drop: Vol. 2 -->
+  <div style="margin-bottom:2px;">
+    <div class="drop-card container" style="max-width:1440px;padding:0 40px;">
+      <div class="drop-card__img" style="background:#111;">
+        <span style="color:#1e1e1e;font-size:clamp(60px,10vw,140px);">V2</span>
+      </div>
+      <div class="drop-card__body">
+        <span class="drop-card__season">Volume 2 — FW25</span>
+        <h3 class="drop-card__title">에드헤드<br />Restless</h3>
+        <p class="drop-card__desc">
+          Fall/Winter 2025. Built around the constant motion of the ADHD body — never still, always sensing. Heavyweight fleece, motion-specific cuts, and functional cargo details throughout.
+        </p>
+        <span class="drop-card__status">Sold Out</span>
+        <div style="margin-top:20px;">
+          <a href="shop.html" class="btn btn--outline" style="font-size:10px;padding:10px 20px;">View Remaining Stock</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drop: Vol. 1 (reversed layout) -->
+  <div style="margin-bottom:2px;">
+    <div class="drop-card container" style="max-width:1440px;padding:0 40px;">
+      <div class="drop-card__body" style="order:0;">
+        <span class="drop-card__season">Volume 1 — SS25</span>
+        <h3 class="drop-card__title">에드헤드<br />Origin</h3>
+        <p class="drop-card__desc">
+          Where it all started. Spring/Summer 2025 was the debut collection — 12 pieces, all sold out in 4 minutes. The basics: tees, crewnecks, and one statement jacket that went everywhere.
+        </p>
+        <span class="drop-card__status">Sold Out</span>
+      </div>
+      <div class="drop-card__img" style="background:#0f0f0f;">
+        <span style="color:#1a1a1a;font-size:clamp(60px,10vw,140px);">V1</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drop Sign-Up Strip -->
+  <section style="background:#0d0d0d;border-top:1px solid #1c1c1c;border-bottom:1px solid #1c1c1c;padding:80px 0;margin-top:64px;">
+    <div class="container" style="max-width:680px;text-align:center;">
+      <p style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;">Never Miss a Drop</p>
+      <h2 style="font-family:var(--font-display);font-size:clamp(24px,3.5vw,40px);font-weight:700;letter-spacing:-0.01em;margin-bottom:12px;">Get drop access before everyone else.</h2>
+      <p style="font-size:13px;color:var(--gray-500);margin-bottom:32px;">Join the list. Drops sell out in minutes — early access is the only way.</p>
+      <form class="newsletter-form" style="max-width:440px;margin:0 auto;" onsubmit="return false;">
+        <input type="email" placeholder="Your email address" required />
+        <button type="submit">Join</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <p class="footer__brand-name">ADHD</p>
+          <p class="footer__brand-ko">에드헤드</p>
+          <p class="footer__brand-desc">A lifestyle brand built for the divergent mind.</p>
+        </div>
+        <div>
+          <p class="footer__col-title">Shop</p>
+          <ul class="footer__col-links">
+            <li><a href="shop.html">All Products</a></li>
+            <li><a href="drops.html">Drops</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__col-title">Info</p>
+          <ul class="footer__col-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__col-title">Follow</p>
+          <ul class="footer__col-links">
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">TikTok</a></li>
+            <li><a href="#">Twitter / X</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 ADHD (에드헤드). All rights reserved.</p>
+        <div class="footer__socials"><a href="#">IG</a><a href="#">TK</a><a href="#">X</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

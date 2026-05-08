@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADHD (에드헤드)</title>
+  <meta name="description" content="ADHD (에드헤드) — Wear your frequency." />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="page-fade">
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    Free shipping on orders over $150 &nbsp;·&nbsp; New Drop: 에드헤드 Vol. 3 — June 7
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">
+        ADHD
+        <span class="ko">에드헤드</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="drops.html" class="drops-link">Drops</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav__actions">
+        <button class="search-btn" aria-label="Search">Search</button>
+        <button id="cartBtn" aria-label="Cart">
+          Bag <span class="nav__cart-count" id="cartCount">0</span>
+        </button>
+        <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav__close" id="mobileNavClose">✕</button>
+    <a href="shop.html">Shop</a>
+    <a href="drops.html" class="drops-link">Drops</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <!-- Cart Drawer -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer__header">
+      <h2>Your Bag</h2>
+      <button id="cartClose">✕</button>
+    </div>
+    <div class="cart-drawer__body">
+      <span>Your bag is empty.</span>
+    </div>
+    <div class="cart-drawer__footer">
+      <a href="#" class="btn-checkout">Checkout</a>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__noise"></div>
+    <div class="hero__grid"></div>
+    <div class="hero__accent-shape"></div>
+    <div class="hero__wordmark">ADHD</div>
+    <div class="hero__content container">
+      <p class="hero__eyebrow">에드헤드 — Spring / Summer 2026</p>
+      <h1 class="hero__title">Wear Your<br /><em>Frequency.</em></h1>
+      <p class="hero__sub">
+        Built for the divergent mind. ADHD is a lifestyle brand for those who think sideways, move fast, and feel everything at full volume.
+      </p>
+      <div class="hero__ctas">
+        <a href="shop.html" class="btn btn--white">Shop Now</a>
+        <a href="drops.html" class="btn btn--outline">View Drops</a>
+      </div>
+    </div>
+    <div class="hero__scroll">
+      <span class="hero__scroll-line"></span>
+      Scroll
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <span>ADHD</span><span class="accent">에드헤드</span>
+      <span>Wear Your Frequency</span><span class="accent">·</span>
+      <span>Volume 3</span><span class="accent">·</span>
+      <span>SS26</span><span class="accent">·</span>
+      <span>New Drop</span><span class="accent">June 7</span>
+      <span>·</span><span>ADHD</span><span class="accent">에드헤드</span>
+      <span>Wear Your Frequency</span><span class="accent">·</span>
+      <span>Volume 3</span><span class="accent">·</span>
+      <span>SS26</span><span class="accent">·</span>
+      <span>New Drop</span><span class="accent">June 7</span>
+      <span>·</span>
+    </div>
+  </div>
+
+  <!-- Featured Drop Banner -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-header__title">Latest Drop</h2>
+        <a href="drops.html" class="section-header__link">All Drops</a>
+      </div>
+    </div>
+    <div class="drop-card container" style="max-width:1440px;padding:0 40px;">
+      <div class="drop-card__img" style="background:#111;">
+        <span style="color:#1e1e1e;font-size:clamp(80px,14vw,180px);">V3</span>
+      </div>
+      <div class="drop-card__body">
+        <span class="drop-card__season">Volume 3 — SS26</span>
+        <h3 class="drop-card__title">에드헤드<br />Hyperfocus</h3>
+        <p class="drop-card__desc">
+          The third chapter. A collection designed around the state of total absorption — when the world disappears and the work becomes everything. Oversized silhouettes, washed blacks, and neon accents.
+        </p>
+        <span class="drop-card__status live">Dropping June 7</span>
+        <div style="margin-top:24px;">
+          <a href="drops.html" class="btn btn--accent">View Drop</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- New Arrivals -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-header__title">New Arrivals</h2>
+        <a href="shop.html" class="section-header__link">Shop All</a>
+      </div>
+      <div class="product-grid">
+
+        <div class="product-card" data-category="tops">
+          <div class="product-card__img">
+            <div class="product-card__img-placeholder">에</div>
+            <span class="product-card__badge">New</span>
+          </div>
+          <div class="product-card__info">
+            <p class="product-card__name">Hyperfocus Oversized Tee</p>
+            <p class="product-card__sub">에드헤드 — Vol. 3</p>
+            <p class="product-card__price">$65</p>
+          </div>
+          <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+        </div>
+
+        <div class="product-card" data-category="outerwear">
+          <div class="product-card__img">
+            <div class="product-card__img-placeholder">AD</div>
+            <span class="product-card__badge">New</span>
+          </div>
+          <div class="product-card__info">
+            <p class="product-card__name">Divergent Bomber Jacket</p>
+            <p class="product-card__sub">에드헤드 — Vol. 3</p>
+            <p class="product-card__price">$295</p>
+          </div>
+          <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+        </div>
+
+        <div class="product-card" data-category="bottoms">
+          <div class="product-card__img">
+            <div class="product-card__img-placeholder">HD</div>
+          </div>
+          <div class="product-card__info">
+            <p class="product-card__name">Focus Mode Cargo Pants</p>
+            <p class="product-card__sub">에드헤드 — Vol. 2</p>
+            <p class="product-card__price">$185</p>
+          </div>
+          <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+        </div>
+
+        <div class="product-card" data-category="accessories">
+          <div class="product-card__img">
+            <div class="product-card__img-placeholder">드</div>
+            <span class="product-card__badge">New</span>
+          </div>
+          <div class="product-card__info">
+            <p class="product-card__name">에드헤드 6-Panel Cap</p>
+            <p class="product-card__sub">에드헤드 — Accessories</p>
+            <p class="product-card__price">$55</p>
+          </div>
+          <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Brand Statement Strip -->
+  <section style="background:#0d0d0d;border-top:1px solid #1c1c1c;border-bottom:1px solid #1c1c1c;padding:80px 0;">
+    <div class="container" style="max-width:860px;text-align:center;">
+      <p style="font-family:var(--font-display);font-size:clamp(22px,3.5vw,44px);font-weight:700;letter-spacing:-0.015em;line-height:1.2;color:var(--white);">
+        ADHD isn't a disorder.<br />It's a different <em style="font-style:normal;color:var(--accent);">operating system.</em>
+      </p>
+      <p style="font-size:13px;color:var(--gray-500);margin-top:20px;letter-spacing:0.04em;">
+        Every piece we make is built around that idea.
+      </p>
+      <div style="margin-top:32px;">
+        <a href="about.html" class="btn btn--outline">Our Story</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Best Sellers -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-header__title">Best Sellers</h2>
+        <a href="shop.html" class="section-header__link">Shop All</a>
+      </div>
+      <div class="product-grid">
+
+        <div class="product-card" data-category="tops">
+          <div class="product-card__img">
+            <div class="product-card__img-placeholder">헤</div>
+          </div>
+          <div class="product-card__info">
+            <p class="product-card__name">Scattered Thoughts Hoodie</p>
+            <p class="product-card__sub">에드헤드 — Vol. 2</p>
+            <p class="product-card__price">$145</p>
+          </div>
+          <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+        </div>
+
+        <div class="product-card" data-category="tops">
+          <div class="product-card__img">
+            <div class="product-card__img-placeholder">드</div>
+          </div>
+          <div class="product-card__info">
+            <p class="product-card__name">Dopamine Crewneck</p>
+            <p class="product-card__sub">에드헤드 — Vol. 1</p>
+            <p class="product-card__price">$125</p>
+          </div>
+          <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+        </div>
+
+        <div class="product-card" data-category="accessories">
+          <div class="product-card__img">
+            <div class="product-card__img-placeholder">AD</div>
+          </div>
+          <div class="product-card__info">
+            <p class="product-card__name">Signal Tote Bag</p>
+            <p class="product-card__sub">에드헤드 — Accessories</p>
+            <p class="product-card__price">$45</p>
+          </div>
+          <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+        </div>
+
+        <div class="product-card" data-category="bottoms">
+          <div class="product-card__img">
+            <div class="product-card__img-placeholder">HD</div>
+            <span class="product-card__badge" style="background:var(--white);color:var(--black);">Low Stock</span>
+          </div>
+          <div class="product-card__info">
+            <p class="product-card__name">Impulse Control Shorts</p>
+            <p class="product-card__sub">에드헤드 — Vol. 2</p>
+            <p class="product-card__price">$95</p>
+          </div>
+          <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <p class="footer__brand-name">ADHD</p>
+          <p class="footer__brand-ko">에드헤드</p>
+          <p class="footer__brand-desc">
+            A lifestyle brand built for the divergent mind. Wear your frequency.
+          </p>
+        </div>
+        <div>
+          <p class="footer__col-title">Shop</p>
+          <ul class="footer__col-links">
+            <li><a href="shop.html">All Products</a></li>
+            <li><a href="shop.html">New Arrivals</a></li>
+            <li><a href="drops.html">Drops</a></li>
+            <li><a href="shop.html">Best Sellers</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__col-title">Info</p>
+          <ul class="footer__col-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#">Size Guide</a></li>
+            <li><a href="#">Shipping & Returns</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__col-title">Follow</p>
+          <ul class="footer__col-links">
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">TikTok</a></li>
+            <li><a href="#">Twitter / X</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 ADHD (에드헤드). All rights reserved.</p>
+        <div class="footer__socials">
+          <a href="#">IG</a>
+          <a href="#">TK</a>
+          <a href="#">X</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

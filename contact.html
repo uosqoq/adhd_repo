@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — ADHD (에드헤드)</title>
+  <meta name="description" content="Get in touch with ADHD (에드헤드). Join the newsletter for early drop access." />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="page-fade">
+
+  <div class="announcement-bar">
+    Free shipping on orders over $150 &nbsp;·&nbsp; New Drop: 에드헤드 Vol. 3 — June 7
+  </div>
+
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">ADHD<span class="ko">에드헤드</span></a>
+      <ul class="nav__links">
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="drops.html" class="drops-link">Drops</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav__actions">
+        <button class="search-btn">Search</button>
+        <button id="cartBtn">Bag <span class="nav__cart-count" id="cartCount">0</span></button>
+        <button class="nav__hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav__close" id="mobileNavClose">✕</button>
+    <a href="shop.html">Shop</a>
+    <a href="drops.html" class="drops-link">Drops</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer__header"><h2>Your Bag</h2><button id="cartClose">✕</button></div>
+    <div class="cart-drawer__body"><span>Your bag is empty.</span></div>
+    <div class="cart-drawer__footer"><a href="#" class="btn-checkout">Checkout</a></div>
+  </div>
+
+  <!-- Contact Header -->
+  <section class="container contact-section">
+    <p class="contact-section__eyebrow">Get In Touch</p>
+    <h1 class="contact-section__title">We actually read<br />every message.</h1>
+    <p class="contact-section__sub">
+      Questions about orders, sizing, press, or collabs — send it our way. We're fast. It's kind of our thing.
+    </p>
+
+    <div class="contact-grid">
+
+      <!-- Contact Form -->
+      <div>
+        <h2 style="font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:0.04em;margin-bottom:28px;text-transform:uppercase;">Send a Message</h2>
+        <form id="contactForm" onsubmit="handleContact(event)">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="your@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <select id="subject" name="subject">
+              <option value="">Select a topic</option>
+              <option value="order">Order / Shipping</option>
+              <option value="returns">Returns & Exchanges</option>
+              <option value="sizing">Sizing Help</option>
+              <option value="press">Press & Media</option>
+              <option value="collab">Collaborations</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="What's on your mind?" required></textarea>
+          </div>
+          <button type="submit" class="btn btn--white" style="width:100%;text-align:center;">Send It</button>
+          <p id="formSuccess" style="display:none;margin-top:16px;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;">Message sent. We'll be back shortly.</p>
+        </form>
+      </div>
+
+      <!-- Newsletter + Info -->
+      <div style="display:flex;flex-direction:column;gap:48px;">
+
+        <div class="newsletter-block">
+          <h3>Early Drop Access</h3>
+          <p>
+            Join the list and get notified before drops go public. Drops sell out in minutes — this is the only reliable way in.
+          </p>
+          <form class="newsletter-form" id="newsletterForm" onsubmit="handleNewsletter(event)">
+            <input type="email" placeholder="your@email.com" required />
+            <button type="submit">Join the List</button>
+          </form>
+          <p id="nlSuccess" style="display:none;font-size:11px;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-top:8px;">You're in. Watch your inbox.</p>
+        </div>
+
+        <div style="border-top:1px solid #1c1c1c;padding-top:40px;">
+          <h3 style="font-family:var(--font-display);font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:20px;">Direct Lines</h3>
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div>
+              <p style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gray-500);margin-bottom:4px;">General</p>
+              <p style="font-size:13px;color:var(--gray-300);">hello@adhd-brand.com</p>
+            </div>
+            <div>
+              <p style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gray-500);margin-bottom:4px;">Press &amp; Media</p>
+              <p style="font-size:13px;color:var(--gray-300);">press@adhd-brand.com</p>
+            </div>
+            <div>
+              <p style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gray-500);margin-bottom:4px;">Collabs</p>
+              <p style="font-size:13px;color:var(--gray-300);">collabs@adhd-brand.com</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid #1c1c1c;padding-top:40px;">
+          <h3 style="font-family:var(--font-display);font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:16px;">Follow</h3>
+          <div style="display:flex;gap:16px;">
+            <a href="#" class="btn btn--outline" style="font-size:10px;padding:10px 16px;">Instagram</a>
+            <a href="#" class="btn btn--outline" style="font-size:10px;padding:10px 16px;">TikTok</a>
+            <a href="#" class="btn btn--outline" style="font-size:10px;padding:10px 16px;">Twitter / X</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <p class="footer__brand-name">ADHD</p>
+          <p class="footer__brand-ko">에드헤드</p>
+          <p class="footer__brand-desc">A lifestyle brand built for the divergent mind.</p>
+        </div>
+        <div>
+          <p class="footer__col-title">Shop</p>
+          <ul class="footer__col-links">
+            <li><a href="shop.html">All Products</a></li>
+            <li><a href="drops.html">Drops</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__col-title">Info</p>
+          <ul class="footer__col-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__col-title">Follow</p>
+          <ul class="footer__col-links">
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">TikTok</a></li>
+            <li><a href="#">Twitter / X</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 ADHD (에드헤드). All rights reserved.</p>
+        <div class="footer__socials"><a href="#">IG</a><a href="#">TK</a><a href="#">X</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    function handleContact(e) {
+      e.preventDefault();
+      document.getElementById('formSuccess').style.display = 'block';
+      e.target.reset();
+    }
+
+    function handleNewsletter(e) {
+      e.preventDefault();
+      document.getElementById('nlSuccess').style.display = 'block';
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>

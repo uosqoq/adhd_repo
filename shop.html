@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop — ADHD (에드헤드)</title>
+  <meta name="description" content="Shop all ADHD (에드헤드) products." />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="page-fade">
+
+  <div class="announcement-bar">
+    Free shipping on orders over $150 &nbsp;·&nbsp; New Drop: 에드헤드 Vol. 3 — June 7
+  </div>
+
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">
+        ADHD
+        <span class="ko">에드헤드</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="drops.html" class="drops-link">Drops</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav__actions">
+        <button class="search-btn">Search</button>
+        <button id="cartBtn">Bag <span class="nav__cart-count" id="cartCount">0</span></button>
+        <button class="nav__hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav__close" id="mobileNavClose">✕</button>
+    <a href="shop.html">Shop</a>
+    <a href="drops.html" class="drops-link">Drops</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer__header">
+      <h2>Your Bag</h2>
+      <button id="cartClose">✕</button>
+    </div>
+    <div class="cart-drawer__body"><span>Your bag is empty.</span></div>
+    <div class="cart-drawer__footer"><a href="#" class="btn-checkout">Checkout</a></div>
+  </div>
+
+  <!-- Shop Header -->
+  <div class="container">
+    <div class="shop-header">
+      <div>
+        <h1 class="shop-header__title">Shop</h1>
+        <p class="shop-header__count" id="productCount">Showing 12 products</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="container" style="padding-left:0;padding-right:0;">
+    <div class="shop-filters" style="padding:0 40px;">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="tops">Tops</button>
+      <button class="filter-btn" data-filter="outerwear">Outerwear</button>
+      <button class="filter-btn" data-filter="bottoms">Bottoms</button>
+      <button class="filter-btn" data-filter="accessories">Accessories</button>
+    </div>
+  </div>
+
+  <!-- Product Grid -->
+  <div class="container" style="padding-top:32px;padding-bottom:80px;">
+    <div class="product-grid">
+
+      <div class="product-card" data-category="tops">
+        <div class="product-card__img"><div class="product-card__img-placeholder">에</div><span class="product-card__badge">New</span></div>
+        <div class="product-card__info">
+          <p class="product-card__name">Hyperfocus Oversized Tee</p>
+          <p class="product-card__sub">에드헤드 — Vol. 3</p>
+          <p class="product-card__price">$65</p>
+        </div>
+        <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+      </div>
+
+      <div class="product-card" data-category="outerwear">
+        <div class="product-card__img"><div class="product-card__img-placeholder">AD</div><span class="product-card__badge">New</span></div>
+        <div class="product-card__info">
+          <p class="product-card__name">Divergent Bomber Jacket</p>
+          <p class="product-card__sub">에드헤드 — Vol. 3</p>
+          <p class="product-card__price">$295</p>
+        </div>
+        <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+      </div>
+
+      <div class="product-card" data-category="bottoms">
+        <div class="product-card__img"><div class="product-card__img-placeholder">HD</div></div>
+        <div class="product-card__info">
+          <p class="product-card__name">Focus Mode Cargo Pants</p>
+          <p class="product-card__sub">에드헤드 — Vol. 2</p>
+          <p class="product-card__price">$185</p>
+        </div>
+        <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+      </div>
+
+      <div class="product-card" data-category="accessories">
+        <div class="product-card__img"><div class="product-card__img-placeholder">드</div><span class="product-card__badge">New</span></div>
+        <div class="product-card__info">
+          <p class="product-card__name">에드헤드 6-Panel Cap</p>
+          <p class="product-card__sub">에드헤드 — Accessories</p>
+          <p class="product-card__price">$55</p>
+        </div>
+        <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+      </div>
+
+      <div class="product-card" data-category="tops">
+        <div class="product-card__img"><div class="product-card__img-placeholder">헤</div></div>
+        <div class="product-card__info">
+          <p class="product-card__name">Scattered Thoughts Hoodie</p>
+          <p class="product-card__sub">에드헤드 — Vol. 2</p>
+          <p class="product-card__price">$145</p>
+        </div>
+        <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+      </div>
+
+      <div class="product-card" data-category="tops">
+        <div class="product-card__img"><div class="product-card__img-placeholder">드</div></div>
+        <div class="product-card__info">
+          <p class="product-card__name">Dopamine Crewneck</p>
+          <p class="product-card__sub">에드헤드 — Vol. 1</p>
+          <p class="product-card__price">$125</p>
+        </div>
+        <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+      </div>
+
+      <div class="product-card" data-category="accessories">
+        <div class="product-card__img"><div class="product-card__img-placeholder">AD</div></div>
+        <div class="product-card__info">
+          <p class="product-card__name">Signal Tote Bag</p>
+          <p class="product-card__sub">에드헤드 — Accessories</p>
+          <p class="product-card__price">$45</p>
+        </div>
+        <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+      </div>
+
+      <div class="product-card" data-category="bottoms">
+        <div class="product-card__img"><div class="product-card__img-placeholder">HD</div><span class="product-card__badge" style="background:var(--white);color:var(--black);">Low Stock</span></div>
+        <div class="product-card__info">
+          <p class="product-card__name">Impulse Control Shorts</p>
+          <p class="product-card__sub">에드헤드 — Vol. 2</p>
+          <p class="product-card__price">$95</p>
+        </div>
+        <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+      </div>
+
+      <div class="product-card" data-category="outerwear">
+        <div class="product-card__img"><div class="product-card__img-placeholder">에</div></div>
+        <div class="product-card__info">
+          <p class="product-card__name">Attention Span Coach Jacket</p>
+          <p class="product-card__sub">에드헤드 — Vol. 2</p>
+          <p class="product-card__price">$245</p>
+        </div>
+        <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+      </div>
+
+      <div class="product-card" data-category="tops">
+        <div class="product-card__img"><div class="product-card__img-placeholder">드</div></div>
+        <div class="product-card__info">
+          <p class="product-card__name">Intrusive Thoughts L/S Tee</p>
+          <p class="product-card__sub">에드헤드 — Vol. 1</p>
+          <p class="product-card__price">$75</p>
+        </div>
+        <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+      </div>
+
+      <div class="product-card" data-category="accessories">
+        <div class="product-card__img"><div class="product-card__img-placeholder">HD</div></div>
+        <div class="product-card__info">
+          <p class="product-card__name">Frequency Beanie</p>
+          <p class="product-card__sub">에드헤드 — Accessories</p>
+          <p class="product-card__price">$38</p>
+        </div>
+        <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+      </div>
+
+      <div class="product-card" data-category="bottoms">
+        <div class="product-card__img"><div class="product-card__img-placeholder">에</div></div>
+        <div class="product-card__info">
+          <p class="product-card__name">Restless Legs Track Pants</p>
+          <p class="product-card__sub">에드헤드 — Vol. 3</p>
+          <p class="product-card__price">$135</p>
+        </div>
+        <button class="product-card__add" data-add-to-cart>Add to Bag</button>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <p class="footer__brand-name">ADHD</p>
+          <p class="footer__brand-ko">에드헤드</p>
+          <p class="footer__brand-desc">A lifestyle brand built for the divergent mind.</p>
+        </div>
+        <div>
+          <p class="footer__col-title">Shop</p>
+          <ul class="footer__col-links">
+            <li><a href="shop.html">All Products</a></li>
+            <li><a href="drops.html">Drops</a></li>
+            <li><a href="shop.html">Best Sellers</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__col-title">Info</p>
+          <ul class="footer__col-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#">Shipping & Returns</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__col-title">Follow</p>
+          <ul class="footer__col-links">
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">TikTok</a></li>
+            <li><a href="#">Twitter / X</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 ADHD (에드헤드). All rights reserved.</p>
+        <div class="footer__socials"><a href="#">IG</a><a href="#">TK</a><a href="#">X</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Update product count on filter
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cat = btn.dataset.filter;
+        const all = document.querySelectorAll('.product-card[data-category]');
+        const visible = cat === 'all' ? all.length : [...all].filter(c => c.dataset.category === cat).length;
+        document.getElementById('productCount').textContent = `Showing ${visible} product${visible !== 1 ? 's' : ''}`;
+      });
+    });
+  </script>
+</body>
+</html>
