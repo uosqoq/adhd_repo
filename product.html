@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product — ADHD (에드헤드)</title>
+  <meta name="description" content="ADHD 에드헤드 product details." />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="page-fade">
+
+  <div class="announcement-bar" id="announcementBar">
+    Free shipping on orders over $150 &nbsp;·&nbsp; New Drop: 에드헤드 Vol. 3 — June 7
+  </div>
+
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">ADHD<span class="ko">에드헤드</span></a>
+      <ul class="nav__links">
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="drops.html" class="drops-link">Drops</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav__actions">
+        <button class="search-btn">Search</button>
+        <span id="navAuth"></span>
+        <button id="cartBtn">Bag <span class="nav__cart-count" id="cartCount">0</span></button>
+        <button class="nav__hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav__close" id="mobileNavClose">✕</button>
+    <a href="shop.html">Shop</a>
+    <a href="drops.html" class="drops-link">Drops</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer__header">
+      <h2>Your Bag</h2>
+      <button id="cartClose">✕</button>
+    </div>
+    <div class="cart-drawer__body"><span>Your bag is empty.</span></div>
+    <div class="cart-drawer__footer"><a href="#" class="btn-checkout">Checkout</a></div>
+  </div>
+
+  <!-- Breadcrumb -->
+  <div class="container" style="padding-top:20px;padding-bottom:0;">
+    <p style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-700);">
+      <a href="shop.html" style="color:var(--gray-700);text-decoration:none;">Shop</a>
+      &nbsp;/&nbsp;
+      <span id="breadcrumbName" style="color:var(--gray-500);">—</span>
+    </p>
+  </div>
+
+  <!-- Product Detail -->
+  <section class="product-detail">
+    <div class="container">
+
+      <!-- Loading state -->
+      <div id="productLoading" style="text-align:center;padding:120px 0;color:var(--gray-700);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;">
+        Loading…
+      </div>
+
+      <!-- Product layout (hidden until loaded) -->
+      <div class="product-detail__layout" id="productLayout" style="display:none;">
+
+        <!-- Thumbnail strip -->
+        <div class="product-detail__thumbs" id="thumbStrip"></div>
+
+        <!-- Main image -->
+        <div class="product-detail__main-img" id="mainImgWrap"></div>
+
+        <!-- Info panel -->
+        <div class="product-detail__info">
+          <span class="product-detail__badge" id="productBadge" style="display:none;"></span>
+          <p class="product-detail__sub" id="productSub"></p>
+          <h1 class="product-detail__name" id="productName"></h1>
+          <p class="product-detail__price" id="productPrice"></p>
+
+          <hr class="product-detail__divider" />
+
+          <!-- Size selector -->
+          <div style="margin-bottom:24px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <p style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-500);">Select Size</p>
+              <button style="font-size:11px;letter-spacing:0.06em;color:var(--gray-700);text-decoration:underline;background:none;border:none;cursor:pointer;padding:0;">Size Guide</button>
+            </div>
+            <div class="size-grid" id="sizeGrid"></div>
+          </div>
+
+          <button class="product-detail__add" id="addToBagBtn">Add to Bag</button>
+          <button class="product-detail__wishlist" id="wishlistBtn">♡ Save to Wishlist</button>
+
+          <hr class="product-detail__divider" />
+
+          <div class="product-detail__meta" id="productMeta"></div>
+        </div>
+
+      </div>
+
+      <!-- Not found state -->
+      <div id="productNotFound" style="display:none;text-align:center;padding:120px 0;">
+        <p style="font-size:13px;color:var(--gray-700);letter-spacing:0.08em;text-transform:uppercase;">Product not found</p>
+        <a href="shop.html" class="btn" style="display:inline-block;margin-top:24px;padding:14px 32px;background:var(--white);color:var(--black);font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;">Back to Shop</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background:#0d0d0d;border-top:1px solid #1a1a1a;padding:48px 0;margin-top:80px;">
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+      <p style="font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:0.06em;">ADHD <span style="font-size:12px;color:var(--gray-700);">에드헤드</span></p>
+      <p style="font-size:11px;color:var(--gray-700);letter-spacing:0.06em;">© 2026 ADHD. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    ADHD.renderNavAuth();
+
+    const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+    let selectedSize = null;
+    let currentProduct = null;
+
+    function setMainImage(url) {
+      const wrap = document.getElementById('mainImgWrap');
+      wrap.innerHTML = url
+        ? `<img src="${url}" alt="${currentProduct?.name || ''}" />`
+        : `<div class="product-detail__main-placeholder">${currentProduct?.image || ''}</div>`;
+    }
+
+    function activateThumb(idx) {
+      document.querySelectorAll('.product-detail__thumb').forEach((t, i) => {
+        t.classList.toggle('active', i === idx);
+      });
+    }
+
+    async function loadProduct() {
+      const params = new URLSearchParams(location.search);
+      const id     = params.get('id');
+      if (!id) { showNotFound(); return; }
+
+      try {
+        const products = await ADHD.getProducts();
+        const p = products.find(x => (x._id || x.id) === id);
+        if (!p) { showNotFound(); return; }
+        currentProduct = p;
+        renderProduct(p);
+      } catch (e) {
+        showNotFound();
+      }
+    }
+
+    function renderProduct(p) {
+      const soldOut = p.stock === 0;
+      const badge   = soldOut ? 'Sold Out' : (p.badge || '');
+
+      // Breadcrumb
+      document.getElementById('breadcrumbName').textContent = p.name;
+      document.title = `${p.name} — ADHD (에드헤드)`;
+
+      // Badge
+      const badgeEl = document.getElementById('productBadge');
+      if (badge) { badgeEl.textContent = badge; badgeEl.style.display = 'inline-block'; }
+
+      document.getElementById('productSub').textContent   = p.sub;
+      document.getElementById('productName').textContent  = p.name;
+      document.getElementById('productPrice').textContent = `$${p.price}`;
+
+      // Images
+      const images = (p.images && p.images.length) ? p.images : [];
+      const thumbStrip = document.getElementById('thumbStrip');
+
+      if (images.length) {
+        thumbStrip.innerHTML = images.map((url, i) => `
+          <button class="product-detail__thumb${i === 0 ? ' active' : ''}" data-idx="${i}">
+            <img src="${url}" alt="${p.name} view ${i + 1}" />
+          </button>`).join('');
+        thumbStrip.querySelectorAll('.product-detail__thumb').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const idx = parseInt(btn.dataset.idx);
+            setMainImage(images[idx]);
+            activateThumb(idx);
+          });
+        });
+        setMainImage(images[0]);
+      } else {
+        thumbStrip.innerHTML = '';
+        document.getElementById('mainImgWrap').innerHTML =
+          `<div class="product-detail__main-placeholder">${p.image}</div>`;
+      }
+
+      // Sizes
+      const sizeGrid = document.getElementById('sizeGrid');
+      sizeGrid.innerHTML = SIZES.map(s => `
+        <button class="size-btn${soldOut ? ' sold-out' : ''}" data-size="${s}" ${soldOut ? 'disabled' : ''}>${s}</button>
+      `).join('');
+      if (!soldOut) {
+        sizeGrid.querySelectorAll('.size-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            sizeGrid.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedSize = btn.dataset.size;
+          });
+        });
+      }
+
+      // Add to bag
+      const addBtn = document.getElementById('addToBagBtn');
+      if (soldOut) {
+        addBtn.textContent  = 'Sold Out';
+        addBtn.disabled     = true;
+        addBtn.style.background = '#333';
+        addBtn.style.color      = '#666';
+        addBtn.style.cursor     = 'default';
+      } else {
+        addBtn.addEventListener('click', () => {
+          if (!selectedSize) {
+            sizeGrid.style.outline = '1px solid var(--accent)';
+            setTimeout(() => { sizeGrid.style.outline = ''; }, 800);
+            return;
+          }
+          // Add to cart via main.js cart system
+          const cartItem = {
+            id:    p._id || p.id,
+            name:  p.name,
+            sub:   `${p.sub} — ${selectedSize}`,
+            price: p.price,
+            image: images[0] || p.image,
+          };
+          if (typeof window.addToCart === 'function') {
+            window.addToCart(cartItem);
+          } else {
+            // Fallback: store in sessionStorage cart
+            const cart = JSON.parse(sessionStorage.getItem('adhd_cart') || '[]');
+            cart.push(cartItem);
+            sessionStorage.setItem('adhd_cart', JSON.stringify(cart));
+          }
+          addBtn.textContent = '✓ Added';
+          setTimeout(() => { addBtn.textContent = 'Add to Bag'; }, 1800);
+        });
+      }
+
+      // Meta
+      document.getElementById('productMeta').innerHTML = `
+        <div class="product-detail__meta-row">
+          <span>Category</span>
+          <span style="text-transform:capitalize;">${p.category}</span>
+        </div>
+        <div class="product-detail__meta-row">
+          <span>Stock</span>
+          <span>${p.stock > 0 ? `${p.stock} remaining` : 'Out of stock'}</span>
+        </div>
+        <div class="product-detail__meta-row">
+          <span>SKU</span>
+          <span style="font-family:var(--font-display);letter-spacing:0.08em;">${(p._id || p.id || '').slice(-8).toUpperCase()}</span>
+        </div>
+      `;
+
+      // Show layout
+      document.getElementById('productLoading').style.display = 'none';
+      document.getElementById('productLayout').style.display  = '';
+    }
+
+    function showNotFound() {
+      document.getElementById('productLoading').style.display  = 'none';
+      document.getElementById('productNotFound').style.display = 'block';
+    }
+
+    loadProduct();
+  </script>
+</body>
+</html>

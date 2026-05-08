@@ -2,6 +2,86 @@
    ADHD (에드헤드) — Admin Panel JS (MongoDB API version)
    ========================================================= */
 
+// =========================================================
+// IMAGE UPLOADER
+// =========================================================
+let addImageURLs  = [];
+let editImageURLs = [];
+
+async function uploadImagesToAPI(files, barEl, fillEl) {
+  if (!files || !files.length) return [];
+  barEl.style.display = 'block';
+  fillEl.style.width = '15%';
+
+  const fd = new FormData();
+  Array.from(files).forEach(f => fd.append('images', f));
+
+  fillEl.style.width = '55%';
+  const res = await fetch(ADHD.API + '/upload', {
+    method:  'POST',
+    headers: { Authorization: 'Bearer ' + ADHD.getToken() },
+    body:    fd,
+  });
+  fillEl.style.width = '100%';
+  setTimeout(() => { barEl.style.display = 'none'; fillEl.style.width = '0%'; }, 400);
+
+  if (!res.ok) { showToast('Upload failed — check console'); throw new Error(await res.text()); }
+  const { urls } = await res.json();
+  return urls;
+}
+
+function renderImgPreview(previewEl, urls, removeFn) {
+  previewEl.innerHTML = urls.length
+    ? urls.map((url, i) => `
+        <div class="img-preview-item">
+          <img src="${url}" alt="" loading="lazy" />
+          ${i === 0 ? '<span class="img-preview-item__primary">Primary</span>' : ''}
+          <button class="img-preview-item__remove" type="button" data-idx="${i}">✕</button>
+        </div>`).join('')
+    : '';
+  previewEl.querySelectorAll('.img-preview-item__remove').forEach(btn => {
+    btn.addEventListener('click', () => removeFn(parseInt(btn.dataset.idx)));
+  });
+}
+
+function initImgUploader(zoneId, inputId, previewId, getURLs, setURLs, barId, fillId) {
+  const zone    = document.getElementById(zoneId);
+  const input   = document.getElementById(inputId);
+  const preview = document.getElementById(previewId);
+  const bar     = document.getElementById(barId);
+  const fill    = document.getElementById(fillId);
+  if (!zone || !input) return;
+
+  const removeFn = idx => {
+    const urls = getURLs().filter((_, i) => i !== idx);
+    setURLs(urls);
+    renderImgPreview(preview, urls, removeFn);
+  };
+
+  const handleFiles = async files => {
+    const existing = getURLs();
+    const slots = 8 - existing.length;
+    if (slots <= 0) { showToast('Maximum 8 images reached'); return; }
+    const chosen = Array.from(files).slice(0, slots);
+    try {
+      const newURLs = await uploadImagesToAPI(chosen, bar, fill);
+      const merged  = [...existing, ...newURLs];
+      setURLs(merged);
+      renderImgPreview(preview, merged, removeFn);
+    } catch (e) { console.error(e); }
+  };
+
+  zone.addEventListener('click', () => input.click());
+  input.addEventListener('change', () => { handleFiles(input.files); input.value = ''; });
+  zone.addEventListener('dragover',  e => { e.preventDefault(); zone.classList.add('dragover'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('dragover');
+    handleFiles(e.dataTransfer.files);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   const session = ADHD.requireAuth('admin');
   if (!session) return;
@@ -71,7 +151,7 @@ async function renderProducts(filter = '') {
     <tr data-id="${p._id}">
       <td>
         <div style="display:flex;align-items:center;gap:12px;">
-          <div class="admin-product-thumb">${p.image}</div>
+          <div class="admin-product-thumb">${p.images && p.images[0] ? `<img src="${p.images[0]}" style="width:100%;height:100%;object-fit:cover;" />` : p.image}</div>
           <div>
             <p style="font-weight:500;font-size:13px;">${p.name}</p>
             <p style="color:var(--gray-500);font-size:11px;">${p.sub}</p>
@@ -127,23 +207,39 @@ async function deleteProduct(id) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Init add-product image uploader
+  initImgUploader(
+    'addImgUploader', 'addImgInput', 'addImgPreview',
+    () => addImageURLs, v => { addImageURLs = v; },
+    'addImgBar', 'addImgBarFill'
+  );
+
   document.getElementById('addProductForm')?.addEventListener('submit', async e => {
     e.preventDefault();
-    const f = e.target;
-    await ADHD.addProduct({
-      name:     f.pname.value,
-      sub:      f.psub.value,
-      price:    parseFloat(f.pprice.value),
-      category: f.pcategory.value,
-      badge:    f.pbadge.value,
-      stock:    parseInt(f.pstock.value),
-      image:    f.pimage.value || f.pname.value.charAt(0).toUpperCase(),
-    });
-    f.reset();
-    await renderProducts();
-    await renderDashboard();
-    showToast('Product added!');
-    document.querySelector('[data-tab="products"]').click();
+    const f   = e.target;
+    const btn = f.querySelector('[type=submit]');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+      await ADHD.addProduct({
+        name:     f.pname.value,
+        sub:      f.psub.value,
+        price:    parseFloat(f.pprice.value),
+        category: f.pcategory.value,
+        badge:    f.pbadge.value,
+        stock:    parseInt(f.pstock.value),
+        image:    f.pname.value.charAt(0).toUpperCase(),
+        images:   addImageURLs,
+      });
+      f.reset();
+      addImageURLs = [];
+      document.getElementById('addImgPreview').innerHTML = '';
+      await renderProducts();
+      await renderDashboard();
+      showToast('Product added!');
+      document.querySelector('[data-tab="products"]').click();
+    } finally {
+      btn.disabled = false; btn.textContent = 'Add Product';
+    }
   });
 
   document.getElementById('productSearch')?.addEventListener('input', e => {
@@ -162,7 +258,16 @@ async function openEditModal(id) {
   document.getElementById('editCategory').value = p.category;
   document.getElementById('editBadge').value    = p.badge;
   document.getElementById('editStock').value    = p.stock;
-  document.getElementById('editImage').value    = p.image;
+
+  // Load existing images
+  editImageURLs = Array.isArray(p.images) ? [...p.images] : [];
+  const preview = document.getElementById('editImgPreview');
+  const removeFn = idx => {
+    editImageURLs = editImageURLs.filter((_, i) => i !== idx);
+    renderImgPreview(preview, editImageURLs, removeFn);
+  };
+  renderImgPreview(preview, editImageURLs, removeFn);
+
   document.getElementById('editModal').style.display = 'flex';
 }
 
@@ -171,22 +276,35 @@ function closeEditModal() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Init edit-product image uploader
+  initImgUploader(
+    'editImgUploader', 'editImgInput', 'editImgPreview',
+    () => editImageURLs, v => { editImageURLs = v; },
+    'editImgBar', 'editImgBarFill'
+  );
+
   document.getElementById('editProductForm')?.addEventListener('submit', async e => {
     e.preventDefault();
-    const f = e.target;
-    await ADHD.updateProduct(f.editId.value, {
-      name:     f.editName.value,
-      sub:      f.editSub.value,
-      price:    parseFloat(f.editPrice.value),
-      category: f.editCategory.value,
-      badge:    f.editBadge.value,
-      stock:    parseInt(f.editStock.value),
-      image:    f.editImage.value,
-    });
-    closeEditModal();
-    await renderProducts();
-    await renderDashboard();
-    showToast('Product updated!');
+    const f   = e.target;
+    const btn = f.querySelector('[type=submit]');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+      await ADHD.updateProduct(f.editId.value, {
+        name:     f.editName.value,
+        sub:      f.editSub.value,
+        price:    parseFloat(f.editPrice.value),
+        category: f.editCategory.value,
+        badge:    f.editBadge.value,
+        stock:    parseInt(f.editStock.value),
+        images:   editImageURLs,
+      });
+      closeEditModal();
+      await renderProducts();
+      await renderDashboard();
+      showToast('Product updated!');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Save Changes';
+    }
   });
 });
 

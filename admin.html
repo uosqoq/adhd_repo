@@ -155,8 +155,17 @@
                 </select>
               </div>
               <div class="admin-form-group admin-form-full">
-                <label>Image Placeholder (1-2 chars, e.g. 에, AD)</label>
-                <input type="text" name="pimage" placeholder="에" maxlength="2" />
+                <label>Product Images <span style="color:var(--gray-700);font-weight:400;">(up to 8 · JPG, PNG, WebP)</span></label>
+                <div class="img-uploader" id="addImgUploader">
+                  <input type="file" accept="image/*" multiple id="addImgInput" />
+                  <div class="img-uploader__icon">↑</div>
+                  <p class="img-uploader__label">Drop images here or click to upload</p>
+                  <p class="img-uploader__sub">Max 10 MB each · First image becomes the primary</p>
+                </div>
+                <div class="img-uploading-bar" id="addImgBar" style="display:none;margin-top:12px;">
+                  <div class="img-uploading-bar__fill" id="addImgBarFill"></div>
+                </div>
+                <div class="img-preview-grid" id="addImgPreview" style="margin-top:12px;"></div>
               </div>
             </div>
             <div style="margin-top:24px;display:flex;gap:12px;">
@@ -341,8 +350,17 @@
             </select>
           </div>
           <div class="admin-form-group admin-form-full">
-            <label>Image Placeholder</label>
-            <input type="text" name="editImage" id="editImage" maxlength="2" />
+            <label>Product Images <span style="color:var(--gray-700);font-weight:400;">(up to 8 · JPG, PNG, WebP)</span></label>
+            <div class="img-uploader" id="editImgUploader">
+              <input type="file" accept="image/*" multiple id="editImgInput" />
+              <div class="img-uploader__icon">↑</div>
+              <p class="img-uploader__label">Drop images here or click to upload</p>
+              <p class="img-uploader__sub">Max 10 MB each · First image becomes the primary</p>
+            </div>
+            <div class="img-uploading-bar" id="editImgBar" style="display:none;margin-top:12px;">
+              <div class="img-uploading-bar__fill" id="editImgBarFill"></div>
+            </div>
+            <div class="img-preview-grid" id="editImgPreview" style="margin-top:12px;"></div>
           </div>
         </div>
         <div style="margin-top:24px;display:flex;gap:12px;">
