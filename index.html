@@ -223,11 +223,12 @@
     ADHD.renderNavAuth();
 
     function productCardHTML(p) {
+      const id = p._id || p.id;
       const soldOut = p.stock === 0;
       const badge = soldOut ? 'Sold Out' : (p.badge || '');
       const badgeStyle = badge === 'Low Stock' ? 'background:var(--white);color:var(--black);' : '';
       return `
-        <div class="product-card" data-category="${p.category}" data-id="${p.id}">
+        <div class="product-card" data-category="${p.category}" data-id="${id}">
           <div class="product-card__img">
             <div class="product-card__img-placeholder">${p.image}</div>
             ${badge ? `<span class="product-card__badge" style="${badgeStyle}">${badge}</span>` : ''}
@@ -244,15 +245,14 @@
         </div>`;
     }
 
-    const allProducts = ADHD.getProducts();
-    // New Arrivals: products badged "New", up to 4
-    const newArrivals = allProducts.filter(p => p.badge === 'New').slice(0, 4);
-    document.getElementById('newArrivalsGrid').innerHTML =
-      (newArrivals.length ? newArrivals : allProducts.slice(0, 4)).map(productCardHTML).join('');
-
-    // Best Sellers: last 4 products (oldest in the default set = most established)
-    const bestSellers = allProducts.slice(-4);
-    document.getElementById('bestSellersGrid').innerHTML = bestSellers.map(productCardHTML).join('');
+    (async () => {
+      const allProducts = await ADHD.getProducts();
+      const newArrivals = allProducts.filter(p => p.badge === 'New').slice(0, 4);
+      document.getElementById('newArrivalsGrid').innerHTML =
+        (newArrivals.length ? newArrivals : allProducts.slice(0, 4)).map(productCardHTML).join('');
+      const bestSellers = allProducts.slice(-4);
+      document.getElementById('bestSellersGrid').innerHTML = bestSellers.map(productCardHTML).join('');
+    })();
   </script>
 </body>
 </html>

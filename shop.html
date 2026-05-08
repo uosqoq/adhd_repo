@@ -73,9 +73,11 @@
     </div>
   </div>
 
-  <!-- Product Grid — rendered dynamically from localStorage -->
+  <!-- Product Grid — rendered dynamically from MongoDB via API -->
   <div class="container" style="padding-top:32px;padding-bottom:80px;">
-    <div class="product-grid" id="shopGrid"></div>
+    <div class="product-grid" id="shopGrid">
+      <div style="grid-column:1/-1;padding:80px;text-align:center;color:var(--gray-700);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;">Loading...</div>
+    </div>
   </div>
 
   <footer>
@@ -124,11 +126,12 @@
     ADHD.renderNavAuth();
 
     function productCardHTML(p) {
+      const id = p._id || p.id;
       const soldOut = p.stock === 0;
       const badge = soldOut ? 'Sold Out' : (p.badge || '');
       const badgeStyle = badge === 'Low Stock' ? 'background:var(--white);color:var(--black);' : '';
       return `
-        <div class="product-card" data-category="${p.category}" data-id="${p.id}">
+        <div class="product-card" data-category="${p.category}" data-id="${id}">
           <div class="product-card__img">
             <div class="product-card__img-placeholder">${p.image}</div>
             ${badge ? `<span class="product-card__badge" style="${badgeStyle}">${badge}</span>` : ''}
@@ -145,16 +148,17 @@
         </div>`;
     }
 
-    function renderShopGrid(filter = 'all') {
-      const products = ADHD.getProducts();
-      const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
+    let allProducts = [];
+
+    async function renderShopGrid(filter = 'all') {
       const grid = document.getElementById('shopGrid');
+      if (!allProducts.length) allProducts = await ADHD.getProducts();
+      const filtered = filter === 'all' ? allProducts : allProducts.filter(p => p.category === filter);
       grid.innerHTML = filtered.length
         ? filtered.map(productCardHTML).join('')
         : `<div style="grid-column:1/-1;padding:80px;text-align:center;color:var(--gray-700);">No products found.</div>`;
       document.getElementById('productCount').textContent =
         `Showing ${filtered.length} product${filtered.length !== 1 ? 's' : ''}`;
-      // Re-init cart add buttons after render
       if (typeof initCart === 'function') initCart();
     }
 

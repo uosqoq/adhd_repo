@@ -8,7 +8,7 @@
     // Redirect immediately before any rendering
     const _s = sessionStorage.getItem('adhd_session');
     if (!_s) window.location.replace('login.html');
-    else if (JSON.parse(_s).type !== 'admin') window.location.replace('index.html');
+    else if (JSON.parse(_s).role !== 'admin') window.location.replace('index.html');
   </script>
   <link rel="stylesheet" href="css/styles.css" />
 </head>

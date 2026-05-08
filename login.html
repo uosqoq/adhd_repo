@@ -70,7 +70,7 @@
   <script>
     // Redirect if already logged in
     const s = ADHD.getSession();
-    if (s) window.location.href = s.type === 'admin' ? 'admin.html' : 'account.html';
+    if (s) window.location.href = s.role === 'admin' ? 'admin.html' : 'account.html';
 
     // Tab switching
     document.querySelectorAll('.auth-tab').forEach(tab => {
@@ -83,9 +83,12 @@
     });
 
     // Login
-    document.getElementById('loginForm').addEventListener('submit', e => {
+    document.getElementById('loginForm').addEventListener('submit', async e => {
       e.preventDefault();
-      const result = ADHD.login(
+      const btn = e.target.querySelector('button[type=submit]');
+      btn.textContent = 'Signing in...';
+      btn.disabled = true;
+      const result = await ADHD.login(
         document.getElementById('loginEmail').value,
         document.getElementById('loginPassword').value
       );
@@ -93,15 +96,20 @@
         const err = document.getElementById('loginError');
         err.textContent = result.error;
         err.classList.add('show');
+        btn.textContent = 'Sign In';
+        btn.disabled = false;
         return;
       }
       window.location.href = result.type === 'admin' ? 'admin.html' : 'account.html';
     });
 
     // Register
-    document.getElementById('registerForm').addEventListener('submit', e => {
+    document.getElementById('registerForm').addEventListener('submit', async e => {
       e.preventDefault();
-      const result = ADHD.register(
+      const btn = e.target.querySelector('button[type=submit]');
+      btn.textContent = 'Creating account...';
+      btn.disabled = true;
+      const result = await ADHD.register(
         document.getElementById('regName').value,
         document.getElementById('regEmail').value,
         document.getElementById('regPassword').value
@@ -110,6 +118,8 @@
         const err = document.getElementById('registerError');
         err.textContent = result.error;
         err.classList.add('show');
+        btn.textContent = 'Create Account';
+        btn.disabled = false;
         return;
       }
       window.location.href = 'account.html';
