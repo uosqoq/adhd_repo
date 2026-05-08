@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — ADHD (에드헤드)</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav" style="position:sticky;top:0;z-index:900;">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">ADHD<span class="ko">Admin</span></a>
+      <ul class="nav__links">
+        <li><a href="index.html">← Store</a></li>
+      </ul>
+      <div class="nav__actions">
+        <span id="navAuth"></span>
+        <button onclick="ADHD.logout()" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-500);">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <p class="admin-sidebar-title">Dashboard</p>
+      <button class="admin-tab-btn active" data-tab="dashboard"><span class="icon">◈</span> Overview</button>
+
+      <p class="admin-sidebar-title" style="margin-top:24px;">Catalog</p>
+      <button class="admin-tab-btn" data-tab="products"><span class="icon">◻</span> Products</button>
+      <button class="admin-tab-btn" data-tab="add-product"><span class="icon">＋</span> Add Product</button>
+
+      <p class="admin-sidebar-title" style="margin-top:24px;">Store</p>
+      <button class="admin-tab-btn" data-tab="orders"><span class="icon">◑</span> Orders</button>
+      <button class="admin-tab-btn" data-tab="customers"><span class="icon">◎</span> Customers</button>
+      <button class="admin-tab-btn" data-tab="discounts"><span class="icon">◇</span> Discounts</button>
+
+      <p class="admin-sidebar-title" style="margin-top:24px;">Config</p>
+      <button class="admin-tab-btn" data-tab="settings"><span class="icon">◈</span> Site Settings</button>
+    </aside>
+
+    <!-- Main -->
+    <main class="admin-main">
+
+      <!-- ===== DASHBOARD ===== -->
+      <div class="admin-tab-panel active" id="tab-dashboard">
+        <h1 class="admin-page-title">Overview</h1>
+
+        <div class="stat-grid">
+          <div class="stat-card">
+            <p class="stat-card__label">Total Revenue</p>
+            <p class="stat-card__value accent" id="stat-revenue">—</p>
+          </div>
+          <div class="stat-card">
+            <p class="stat-card__label">Total Orders</p>
+            <p class="stat-card__value" id="stat-orders">—</p>
+          </div>
+          <div class="stat-card">
+            <p class="stat-card__label">Customers</p>
+            <p class="stat-card__value" id="stat-customers">—</p>
+          </div>
+          <div class="stat-card">
+            <p class="stat-card__label">Pending Orders</p>
+            <p class="stat-card__value" id="stat-pending">—</p>
+          </div>
+          <div class="stat-card">
+            <p class="stat-card__label">Low Stock Items</p>
+            <p class="stat-card__value" id="stat-low">—</p>
+          </div>
+          <div class="stat-card">
+            <p class="stat-card__label">Total Products</p>
+            <p class="stat-card__value" id="stat-products">—</p>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <p class="admin-card-title">Recent Orders</p>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead><tr>
+                <th>Order ID</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th>
+              </tr></thead>
+              <tbody id="recent-orders-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PRODUCTS ===== -->
+      <div class="admin-tab-panel" id="tab-products">
+        <h1 class="admin-page-title">Products</h1>
+        <div class="admin-toolbar">
+          <input type="text" id="productSearch" class="admin-search" placeholder="Search products..." />
+          <button class="admin-btn admin-btn--primary" onclick="document.querySelector('[data-tab=add-product]').click()">+ Add Product</button>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr>
+              <th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Badge</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="products-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== ADD PRODUCT ===== -->
+      <div class="admin-tab-panel" id="tab-add-product">
+        <h1 class="admin-page-title">Add Product</h1>
+        <div class="admin-card">
+          <form id="addProductForm">
+            <div class="admin-form-grid">
+              <div class="admin-form-group admin-form-full">
+                <label>Product Name</label>
+                <input type="text" name="pname" placeholder="e.g. Hyperfocus Oversized Tee" required />
+              </div>
+              <div class="admin-form-group admin-form-full">
+                <label>Subtitle / Collection</label>
+                <input type="text" name="psub" placeholder="e.g. 에드헤드 — Vol. 3" required />
+              </div>
+              <div class="admin-form-group">
+                <label>Price ($)</label>
+                <input type="number" name="pprice" placeholder="65" min="0" step="0.01" required />
+              </div>
+              <div class="admin-form-group">
+                <label>Stock Quantity</label>
+                <input type="number" name="pstock" placeholder="20" min="0" required />
+              </div>
+              <div class="admin-form-group">
+                <label>Category</label>
+                <select name="pcategory" required>
+                  <option value="">Select category</option>
+                  <option value="tops">Tops</option>
+                  <option value="outerwear">Outerwear</option>
+                  <option value="bottoms">Bottoms</option>
+                  <option value="accessories">Accessories</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label>Badge (optional)</label>
+                <select name="pbadge">
+                  <option value="">None</option>
+                  <option value="New">New</option>
+                  <option value="Low Stock">Low Stock</option>
+                  <option value="Sold Out">Sold Out</option>
+                  <option value="Coming Soon">Coming Soon</option>
+                </select>
+              </div>
+              <div class="admin-form-group admin-form-full">
+                <label>Image Placeholder (1-2 chars, e.g. 에, AD)</label>
+                <input type="text" name="pimage" placeholder="에" maxlength="2" />
+              </div>
+            </div>
+            <div style="margin-top:24px;display:flex;gap:12px;">
+              <button type="submit" class="admin-btn admin-btn--primary">Add Product</button>
+              <button type="reset" class="admin-btn">Clear</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ===== ORDERS ===== -->
+      <div class="admin-tab-panel" id="tab-orders">
+        <h1 class="admin-page-title">Orders</h1>
+        <div class="admin-toolbar">
+          <div style="display:flex;gap:0;border:1px solid #222;">
+            <button class="order-filter-btn filter-btn active" data-filter="all" style="padding:8px 16px;">All</button>
+            <button class="order-filter-btn filter-btn" data-filter="processing" style="padding:8px 16px;">Processing</button>
+            <button class="order-filter-btn filter-btn" data-filter="shipped" style="padding:8px 16px;">Shipped</button>
+            <button class="order-filter-btn filter-btn" data-filter="delivered" style="padding:8px 16px;">Delivered</button>
+            <button class="order-filter-btn filter-btn" data-filter="refunded" style="padding:8px 16px;">Refunded</button>
+          </div>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr>
+              <th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th>
+            </tr></thead>
+            <tbody id="orders-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== CUSTOMERS ===== -->
+      <div class="admin-tab-panel" id="tab-customers">
+        <h1 class="admin-page-title">Customers</h1>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr>
+              <th>Customer</th><th>Joined</th><th>Orders</th><th>Total Spent</th><th>Status</th>
+            </tr></thead>
+            <tbody id="customers-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== DISCOUNTS ===== -->
+      <div class="admin-tab-panel" id="tab-discounts">
+        <h1 class="admin-page-title">Discount Codes</h1>
+
+        <div class="admin-card">
+          <p class="admin-card-title">Create Discount Code</p>
+          <form id="addDiscountForm">
+            <div class="admin-form-grid">
+              <div class="admin-form-group">
+                <label>Discount Code</label>
+                <div style="display:flex;gap:0;">
+                  <input type="text" name="dcode" id="dcodeInput" placeholder="e.g. ADHD20" required style="flex:1;" />
+                  <button type="button" id="generateCode" class="admin-btn" style="white-space:nowrap;border-left:none;">Generate</button>
+                </div>
+              </div>
+              <div class="admin-form-group">
+                <label>Discount Type</label>
+                <select name="dtype">
+                  <option value="percent">Percentage off (%)</option>
+                  <option value="fixed">Fixed amount ($)</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label>Value</label>
+                <input type="number" name="dvalue" placeholder="e.g. 20" min="1" required />
+              </div>
+              <div class="admin-form-group">
+                <label>Minimum Order ($)</label>
+                <input type="number" name="dmin" placeholder="Optional" min="0" />
+              </div>
+              <div class="admin-form-group">
+                <label>Expiry Date</label>
+                <input type="date" name="dexpires" />
+              </div>
+            </div>
+            <div style="margin-top:20px;">
+              <button type="submit" class="admin-btn admin-btn--primary">Create Code</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="admin-card">
+          <p class="admin-card-title">Active Codes</p>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead><tr>
+                <th>Code</th><th>Discount</th><th>Minimum</th><th>Expires</th><th>Actions</th>
+              </tr></thead>
+              <tbody id="discounts-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SETTINGS ===== -->
+      <div class="admin-tab-panel" id="tab-settings">
+        <h1 class="admin-page-title">Site Settings</h1>
+        <div class="admin-card">
+          <p class="admin-card-title">Homepage Content</p>
+          <form id="settingsForm">
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div class="admin-form-group">
+                <label>Announcement Bar Text</label>
+                <input type="text" id="settingAnnouncement" />
+              </div>
+              <div class="admin-form-group">
+                <label>Hero Title</label>
+                <input type="text" id="settingHeroTitle" />
+              </div>
+              <div class="admin-form-group">
+                <label>Hero Subtitle</label>
+                <textarea id="settingHeroSub" rows="3" style="background:#1a1a1a;border:1px solid #222;color:var(--white);font-family:var(--font-sans);font-size:13px;padding:11px 14px;outline:none;width:100%;resize:vertical;"></textarea>
+              </div>
+            </div>
+            <div style="margin-top:20px;">
+              <button type="submit" class="admin-btn admin-btn--primary">Save Settings</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="admin-card">
+          <p class="admin-card-title">Admin Credentials</p>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <p style="font-size:13px;color:var(--gray-300);">Email: <strong>admin@adhd-brand.com</strong></p>
+            <p style="font-size:13px;color:var(--gray-300);">Password: <strong>adhd2026</strong></p>
+            <p style="font-size:11px;color:var(--gray-700);margin-top:4px;">Change these in js/auth.js → ADMIN_EMAIL / ADMIN_PASS</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Edit Product Modal -->
+  <div class="admin-modal-overlay" id="editModal">
+    <div class="admin-modal">
+      <div class="admin-modal-header">
+        <h2>Edit Product</h2>
+        <button class="admin-btn admin-btn--sm" onclick="closeEditModal()">✕ Close</button>
+      </div>
+      <form id="editProductForm">
+        <input type="hidden" name="editId" id="editId" />
+        <div class="admin-form-grid">
+          <div class="admin-form-group admin-form-full">
+            <label>Product Name</label>
+            <input type="text" name="editName" id="editName" required />
+          </div>
+          <div class="admin-form-group admin-form-full">
+            <label>Subtitle</label>
+            <input type="text" name="editSub" id="editSub" required />
+          </div>
+          <div class="admin-form-group">
+            <label>Price ($)</label>
+            <input type="number" name="editPrice" id="editPrice" min="0" step="0.01" required />
+          </div>
+          <div class="admin-form-group">
+            <label>Stock</label>
+            <input type="number" name="editStock" id="editStock" min="0" required />
+          </div>
+          <div class="admin-form-group">
+            <label>Category</label>
+            <select name="editCategory" id="editCategory">
+              <option value="tops">Tops</option>
+              <option value="outerwear">Outerwear</option>
+              <option value="bottoms">Bottoms</option>
+              <option value="accessories">Accessories</option>
+            </select>
+          </div>
+          <div class="admin-form-group">
+            <label>Badge</label>
+            <select name="editBadge" id="editBadge">
+              <option value="">None</option>
+              <option value="New">New</option>
+              <option value="Low Stock">Low Stock</option>
+              <option value="Sold Out">Sold Out</option>
+              <option value="Coming Soon">Coming Soon</option>
+            </select>
+          </div>
+          <div class="admin-form-group admin-form-full">
+            <label>Image Placeholder</label>
+            <input type="text" name="editImage" id="editImage" maxlength="2" />
+          </div>
+        </div>
+        <div style="margin-top:24px;display:flex;gap:12px;">
+          <button type="submit" class="admin-btn admin-btn--primary">Save Changes</button>
+          <button type="button" class="admin-btn" onclick="closeEditModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

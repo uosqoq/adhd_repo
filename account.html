@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Account — ADHD (에드헤드)</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="page-fade">
+
+  <div class="announcement-bar">
+    Free shipping on orders over $150 &nbsp;·&nbsp; New Drop: 에드헤드 Vol. 3 — June 7
+  </div>
+
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">ADHD<span class="ko">에드헤드</span></a>
+      <ul class="nav__links">
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="drops.html" class="drops-link">Drops</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav__actions">
+        <span id="navAuth"></span>
+        <button id="cartBtn">Bag <span class="nav__cart-count" id="cartCount">0</span></button>
+        <button class="nav__hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav__close" id="mobileNavClose">✕</button>
+    <a href="shop.html">Shop</a>
+    <a href="drops.html" class="drops-link">Drops</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer__header"><h2>Your Bag</h2><button id="cartClose">✕</button></div>
+    <div class="cart-drawer__body"><span>Your bag is empty.</span></div>
+    <div class="cart-drawer__footer"><a href="#" class="btn-checkout">Checkout</a></div>
+  </div>
+
+  <div class="container account-page">
+
+    <div class="account-header">
+      <div>
+        <h1 id="accountName">My Account</h1>
+        <p id="accountEmail"></p>
+      </div>
+      <button class="btn btn--outline" style="font-size:10px;padding:10px 20px;" onclick="ADHD.logout()">Sign Out</button>
+    </div>
+
+    <div class="account-grid">
+
+      <!-- Sidebar Nav -->
+      <nav class="account-nav">
+        <button class="account-nav-btn active" data-panel="orders">Order History</button>
+        <button class="account-nav-btn" data-panel="profile">Profile</button>
+        <button class="account-nav-btn" data-panel="drops">Drop Wishlist</button>
+        <button class="account-nav-btn" data-panel="newsletter">Notifications</button>
+      </nav>
+
+      <!-- Panels -->
+      <div>
+
+        <!-- Orders Panel -->
+        <div class="account-panel active" id="panel-orders">
+          <h2 style="font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:20px;">Order History</h2>
+          <div id="ordersList"></div>
+        </div>
+
+        <!-- Profile Panel -->
+        <div class="account-panel" id="panel-profile">
+          <h2 style="font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:24px;">Profile</h2>
+          <form id="profileForm" style="max-width:480px;">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" id="profileName" />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="profileEmail" readonly style="opacity:0.5;cursor:not-allowed;" />
+            </div>
+            <div class="form-group">
+              <label>New Password</label>
+              <input type="password" placeholder="Leave blank to keep current" minlength="6" />
+            </div>
+            <button type="submit" class="btn btn--white" style="margin-top:8px;">Save Changes</button>
+            <p id="profileMsg" style="font-size:11px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-top:12px;display:none;">Saved!</p>
+          </form>
+        </div>
+
+        <!-- Drops Wishlist Panel -->
+        <div class="account-panel" id="panel-drops">
+          <h2 style="font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:20px;">Drop Wishlist</h2>
+          <div style="background:#111;padding:48px;text-align:center;color:var(--gray-700);">
+            <p style="font-size:13px;letter-spacing:0.04em;">No saved drops yet.</p>
+            <a href="drops.html" class="btn btn--outline" style="font-size:10px;padding:10px 20px;margin-top:20px;display:inline-block;">View Drops</a>
+          </div>
+        </div>
+
+        <!-- Notifications Panel -->
+        <div class="account-panel" id="panel-newsletter">
+          <h2 style="font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:24px;">Notifications</h2>
+          <div style="display:flex;flex-direction:column;gap:16px;max-width:480px;">
+            <label style="display:flex;align-items:center;gap:14px;cursor:pointer;padding:16px;background:#111;">
+              <input type="checkbox" checked style="width:16px;height:16px;accent-color:var(--accent);" />
+              <div>
+                <p style="font-size:13px;font-weight:500;">Drop Alerts</p>
+                <p style="font-size:11px;color:var(--gray-500);margin-top:2px;">Get notified before drops go public</p>
+              </div>
+            </label>
+            <label style="display:flex;align-items:center;gap:14px;cursor:pointer;padding:16px;background:#111;">
+              <input type="checkbox" checked style="width:16px;height:16px;accent-color:var(--accent);" />
+              <div>
+                <p style="font-size:13px;font-weight:500;">Order Updates</p>
+                <p style="font-size:11px;color:var(--gray-500);margin-top:2px;">Shipping and delivery notifications</p>
+              </div>
+            </label>
+            <label style="display:flex;align-items:center;gap:14px;cursor:pointer;padding:16px;background:#111;">
+              <input type="checkbox" style="width:16px;height:16px;accent-color:var(--accent);" />
+              <div>
+                <p style="font-size:13px;font-weight:500;">Newsletter</p>
+                <p style="font-size:11px;color:var(--gray-500);margin-top:2px;">Brand news and editorial content</p>
+              </div>
+            </label>
+          </div>
+          <button class="btn btn--white" style="margin-top:24px;" onclick="document.getElementById('notifMsg').style.display='block'">Save Preferences</button>
+          <p id="notifMsg" style="display:none;font-size:11px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-top:12px;">Saved!</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer__bottom" style="border-top:none;padding-top:0;">
+        <p class="footer__copy">© 2026 ADHD (에드헤드). All rights reserved.</p>
+        <div class="footer__socials"><a href="#">IG</a><a href="#">TK</a><a href="#">X</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const session = ADHD.requireAuth('customer');
+    if (session) {
+      ADHD.renderNavAuth();
+      document.getElementById('accountName').textContent = 'Hi, ' + session.name.split(' ')[0];
+      document.getElementById('accountEmail').textContent = session.email;
+      document.getElementById('profileName').value  = session.name;
+      document.getElementById('profileEmail').value = session.email;
+
+      // Orders
+      const orders = ADHD.getOrders().filter(o => o.email === session.email);
+      const list = document.getElementById('ordersList');
+      if (!orders.length) {
+        list.innerHTML = `
+          <div style="background:#111;padding:48px;text-align:center;color:var(--gray-700);">
+            <p style="font-size:13px;letter-spacing:0.04em;">No orders yet.</p>
+            <a href="shop.html" class="btn btn--outline" style="font-size:10px;padding:10px 20px;margin-top:20px;display:inline-block;">Start Shopping</a>
+          </div>`;
+      } else {
+        list.innerHTML = `
+          <table class="admin-table" style="width:100%;">
+            <thead><tr>
+              <th>Order</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th>
+            </tr></thead>
+            <tbody>
+              ${orders.map(o => `
+                <tr>
+                  <td style="font-weight:500;">${o.id}</td>
+                  <td style="font-size:12px;color:var(--gray-500);">${o.items.join(', ')}</td>
+                  <td style="font-weight:600;">$${o.total}</td>
+                  <td><span class="status-badge status-${o.status.toLowerCase()}">${o.status}</span></td>
+                  <td style="color:var(--gray-500);font-size:12px;">${o.date}</td>
+                </tr>`).join('')}
+            </tbody>
+          </table>`;
+      }
+    }
+
+    // Panel switching
+    document.querySelectorAll('.account-nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.account-nav-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.account-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('panel-' + btn.dataset.panel).classList.add('active');
+      });
+    });
+
+    // Profile save
+    document.getElementById('profileForm').addEventListener('submit', e => {
+      e.preventDefault();
+      document.getElementById('profileMsg').style.display = 'block';
+      setTimeout(() => document.getElementById('profileMsg').style.display = 'none', 2500);
+    });
+  </script>
+</body>
+</html>
