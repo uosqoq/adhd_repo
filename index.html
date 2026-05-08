@@ -40,8 +40,8 @@
     </div>
   </nav>
 
-  
-  <!-- Mobile Nav -->
+eggerge
+<!-- Mobile Nav -->
   <div class="mobile-nav" id="mobileNav">
     <button class="mobile-nav__close" id="mobileNavClose">✕</button>
     <a href="shop.html">Shop</a>
@@ -229,7 +229,7 @@
       const badge = soldOut ? 'Sold Out' : (p.badge || '');
       const badgeStyle = badge === 'Low Stock' ? 'background:var(--white);color:var(--black);' : '';
       const imgHTML = p.images && p.images[0]
-        ? `<img src="${p.images[0]}" alt="${p.name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" />`
+        ? `<img src="${p.images[0]}" alt="${p.name}" loading="lazy" />`
         : `<div class="product-card__img-placeholder">${p.image}</div>`;
       return `
         <div class="product-card" data-category="${p.category}" data-id="${id}" style="cursor:pointer;" onclick="location.href='product.html?id=${id}'">
