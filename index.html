@@ -131,67 +131,14 @@
     </div>
   </section>
 
-  <!-- New Arrivals -->
+  <!-- New Arrivals — dynamic from localStorage -->
   <section class="section">
     <div class="container">
       <div class="section-header">
         <h2 class="section-header__title">New Arrivals</h2>
         <a href="shop.html" class="section-header__link">Shop All</a>
       </div>
-      <div class="product-grid">
-
-        <div class="product-card" data-category="tops">
-          <div class="product-card__img">
-            <div class="product-card__img-placeholder">에</div>
-            <span class="product-card__badge">New</span>
-          </div>
-          <div class="product-card__info">
-            <p class="product-card__name">Hyperfocus Oversized Tee</p>
-            <p class="product-card__sub">에드헤드 — Vol. 3</p>
-            <p class="product-card__price">$65</p>
-          </div>
-          <button class="product-card__add" data-add-to-cart>Add to Bag</button>
-        </div>
-
-        <div class="product-card" data-category="outerwear">
-          <div class="product-card__img">
-            <div class="product-card__img-placeholder">AD</div>
-            <span class="product-card__badge">New</span>
-          </div>
-          <div class="product-card__info">
-            <p class="product-card__name">Divergent Bomber Jacket</p>
-            <p class="product-card__sub">에드헤드 — Vol. 3</p>
-            <p class="product-card__price">$295</p>
-          </div>
-          <button class="product-card__add" data-add-to-cart>Add to Bag</button>
-        </div>
-
-        <div class="product-card" data-category="bottoms">
-          <div class="product-card__img">
-            <div class="product-card__img-placeholder">HD</div>
-          </div>
-          <div class="product-card__info">
-            <p class="product-card__name">Focus Mode Cargo Pants</p>
-            <p class="product-card__sub">에드헤드 — Vol. 2</p>
-            <p class="product-card__price">$185</p>
-          </div>
-          <button class="product-card__add" data-add-to-cart>Add to Bag</button>
-        </div>
-
-        <div class="product-card" data-category="accessories">
-          <div class="product-card__img">
-            <div class="product-card__img-placeholder">드</div>
-            <span class="product-card__badge">New</span>
-          </div>
-          <div class="product-card__info">
-            <p class="product-card__name">에드헤드 6-Panel Cap</p>
-            <p class="product-card__sub">에드헤드 — Accessories</p>
-            <p class="product-card__price">$55</p>
-          </div>
-          <button class="product-card__add" data-add-to-cart>Add to Bag</button>
-        </div>
-
-      </div>
+      <div class="product-grid" id="newArrivalsGrid"></div>
     </div>
   </section>
 
@@ -210,65 +157,14 @@
     </div>
   </section>
 
-  <!-- Best Sellers -->
+  <!-- Best Sellers — dynamic from localStorage -->
   <section class="section">
     <div class="container">
       <div class="section-header">
         <h2 class="section-header__title">Best Sellers</h2>
         <a href="shop.html" class="section-header__link">Shop All</a>
       </div>
-      <div class="product-grid">
-
-        <div class="product-card" data-category="tops">
-          <div class="product-card__img">
-            <div class="product-card__img-placeholder">헤</div>
-          </div>
-          <div class="product-card__info">
-            <p class="product-card__name">Scattered Thoughts Hoodie</p>
-            <p class="product-card__sub">에드헤드 — Vol. 2</p>
-            <p class="product-card__price">$145</p>
-          </div>
-          <button class="product-card__add" data-add-to-cart>Add to Bag</button>
-        </div>
-
-        <div class="product-card" data-category="tops">
-          <div class="product-card__img">
-            <div class="product-card__img-placeholder">드</div>
-          </div>
-          <div class="product-card__info">
-            <p class="product-card__name">Dopamine Crewneck</p>
-            <p class="product-card__sub">에드헤드 — Vol. 1</p>
-            <p class="product-card__price">$125</p>
-          </div>
-          <button class="product-card__add" data-add-to-cart>Add to Bag</button>
-        </div>
-
-        <div class="product-card" data-category="accessories">
-          <div class="product-card__img">
-            <div class="product-card__img-placeholder">AD</div>
-          </div>
-          <div class="product-card__info">
-            <p class="product-card__name">Signal Tote Bag</p>
-            <p class="product-card__sub">에드헤드 — Accessories</p>
-            <p class="product-card__price">$45</p>
-          </div>
-          <button class="product-card__add" data-add-to-cart>Add to Bag</button>
-        </div>
-
-        <div class="product-card" data-category="bottoms">
-          <div class="product-card__img">
-            <div class="product-card__img-placeholder">HD</div>
-            <span class="product-card__badge" style="background:var(--white);color:var(--black);">Low Stock</span>
-          </div>
-          <div class="product-card__info">
-            <p class="product-card__name">Impulse Control Shorts</p>
-            <p class="product-card__sub">에드헤드 — Vol. 2</p>
-            <p class="product-card__price">$95</p>
-          </div>
-          <button class="product-card__add" data-add-to-cart>Add to Bag</button>
-        </div>
-
-      </div>
+      <div class="product-grid" id="bestSellersGrid"></div>
     </div>
   </section>
 
@@ -323,6 +219,40 @@
 
   <script src="js/auth.js"></script>
   <script src="js/main.js"></script>
-  <script>ADHD.renderNavAuth();</script>
+  <script>
+    ADHD.renderNavAuth();
+
+    function productCardHTML(p) {
+      const soldOut = p.stock === 0;
+      const badge = soldOut ? 'Sold Out' : (p.badge || '');
+      const badgeStyle = badge === 'Low Stock' ? 'background:var(--white);color:var(--black);' : '';
+      return `
+        <div class="product-card" data-category="${p.category}" data-id="${p.id}">
+          <div class="product-card__img">
+            <div class="product-card__img-placeholder">${p.image}</div>
+            ${badge ? `<span class="product-card__badge" style="${badgeStyle}">${badge}</span>` : ''}
+          </div>
+          <div class="product-card__info">
+            <p class="product-card__name">${p.name}</p>
+            <p class="product-card__sub">${p.sub}</p>
+            <p class="product-card__price">$${p.price}</p>
+          </div>
+          ${soldOut
+            ? `<span class="product-card__add" style="cursor:default;background:#333;color:#666;">Sold Out</span>`
+            : `<button class="product-card__add" data-add-to-cart>Add to Bag</button>`
+          }
+        </div>`;
+    }
+
+    const allProducts = ADHD.getProducts();
+    // New Arrivals: products badged "New", up to 4
+    const newArrivals = allProducts.filter(p => p.badge === 'New').slice(0, 4);
+    document.getElementById('newArrivalsGrid').innerHTML =
+      (newArrivals.length ? newArrivals : allProducts.slice(0, 4)).map(productCardHTML).join('');
+
+    // Best Sellers: last 4 products (oldest in the default set = most established)
+    const bestSellers = allProducts.slice(-4);
+    document.getElementById('bestSellersGrid').innerHTML = bestSellers.map(productCardHTML).join('');
+  </script>
 </body>
 </html>
