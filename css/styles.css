@@ -552,20 +552,14 @@ ul { list-style: none; }
 }
 
 .nav__logo {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
   display: flex;
-  flex-direction: column;
-  line-height: 1.1;
+  align-items: center;
 }
 
-.nav__logo span.ko {
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  color: var(--gray-500);
+.nav__logo-img {
+  height: 36px;
+  width: auto;
+  display: block;
 }
 
 .nav__links {
@@ -1573,17 +1567,10 @@ footer {
   .footer__grid { grid-template-columns: 1fr; }
 }
 
-.footer__brand-name {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.footer__brand-ko {
-  font-size: 11px;
-  color: var(--gray-700);
-  letter-spacing: 0.06em;
+.footer__logo-img {
+  height: 48px;
+  width: auto;
+  display: block;
   margin-bottom: 16px;
 }
 
