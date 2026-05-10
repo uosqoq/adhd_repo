@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initShopFilters();
   initCountdown();
   initPageFade();
+  loadBanners();
+  loadFeaturedDrop();
+  loadDropsPage();
 });
 
 // =========================================================
@@ -113,17 +116,151 @@ function initShopFilters() {
 }
 
 // =========================================================
+// DYNAMIC CONTENT — BANNERS + DROPS
+// =========================================================
+async function loadBanners() {
+  if (!document.getElementById('announcementBar') && !document.getElementById('heroTitle')) return;
+  try {
+    const s = await ADHD.getSettings();
+    const bar = document.getElementById('announcementBar');
+    if (bar && s.announcementBar) bar.textContent = s.announcementBar;
+    const eyebrow = document.getElementById('heroEyebrow');
+    if (eyebrow && s.heroEyebrow) eyebrow.textContent = s.heroEyebrow;
+    const title = document.getElementById('heroTitle');
+    if (title && s.heroTitle) title.innerHTML = s.heroTitle;
+    const sub = document.getElementById('heroSub');
+    if (sub && s.heroSub) sub.textContent = s.heroSub;
+  } catch (e) { /* silently fail — show fallback HTML */ }
+}
+
+async function loadFeaturedDrop() {
+  const card = document.getElementById('featuredDrop');
+  if (!card) return;
+  try {
+    const drops = await ADHD.getDrops();
+    if (!drops.length) return;
+    const drop = drops.find(d => d.status === 'upcoming') ||
+                 drops.find(d => d.status === 'active') ||
+                 drops[0];
+    if (!drop) return;
+
+    const imgHtml = drop.images && drop.images[0]
+      ? `<img src="${drop.images[0]}" style="width:100%;height:100%;object-fit:cover;" />`
+      : `<span style="color:#1e1e1e;font-size:clamp(80px,14vw,180px);">${drop.title.charAt(0).toUpperCase()}</span>`;
+
+    let statusLabel = 'Live Now';
+    if (drop.status === 'upcoming' && drop.date)
+      statusLabel = 'Dropping ' + new Date(drop.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+    else if (drop.status === 'sold-out') statusLabel = 'Sold Out';
+
+    card.innerHTML = `
+      <div class="drop-card__img" style="background:#111;">${imgHtml}</div>
+      <div class="drop-card__body">
+        <span class="drop-card__season">${drop.season || ''}</span>
+        <h3 class="drop-card__title">에드헤드<br />${drop.title}</h3>
+        <p class="drop-card__desc">${drop.description || ''}</p>
+        <span class="drop-card__status${drop.status !== 'sold-out' ? ' live' : ''}">${statusLabel}</span>
+        <div style="margin-top:24px;"><a href="drops.html" class="btn btn--accent">View Drop</a></div>
+      </div>
+    `;
+  } catch (e) { /* silently fail — show fallback HTML */ }
+}
+
+async function loadDropsPage() {
+  const heroTitle = document.getElementById('dropsHeroTitle');
+  const pastList  = document.getElementById('pastDropsList');
+  if (!heroTitle && !pastList) return;
+
+  try {
+    const [drops, settings] = await Promise.all([ADHD.getDrops(), ADHD.getSettings()]);
+
+    // Announcement bar
+    const bar = document.getElementById('announcementBar');
+    if (bar && settings.announcementBar) bar.textContent = settings.announcementBar;
+
+    // Find the featured (upcoming/active) drop for the hero
+    const featured = drops.find(d => d.status === 'upcoming') ||
+                     drops.find(d => d.status === 'active');
+
+    if (featured && heroTitle) {
+      document.getElementById('dropsHeroTitle').innerHTML = `에드헤드<br />${featured.title}`;
+      const sub = document.getElementById('dropsHeroSub');
+      if (sub && featured.description) sub.textContent = featured.description;
+      if (featured.date) _countdownTarget = new Date(featured.date);
+
+      // Update marquee with live drop info
+      const marquee = document.getElementById('marqueeTrack');
+      if (marquee) {
+        const dateStr = featured.date
+          ? new Date(featured.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+          : 'Coming Soon';
+        const chunk = `
+          <span>${featured.season || 'Limited Edition'}</span><span class="accent">${featured.title}</span>
+          <span>${dateStr}</span><span class="accent">·</span>
+          <span>Limited Units</span><span class="accent">·</span>
+          <span>ADHD</span><span class="accent">에드헤드</span>
+          <span>·</span>`;
+        marquee.innerHTML = chunk + chunk;
+      }
+    }
+
+    // Render past drops (all non-featured)
+    if (pastList) {
+      const past = drops.filter(d => d !== featured);
+      if (!past.length) { pastList.innerHTML = ''; return; }
+      pastList.innerHTML = past.map((d, i) => {
+        const imgHtml = d.images && d.images[0]
+          ? `<img src="${d.images[0]}" style="width:100%;height:100%;object-fit:cover;" />`
+          : `<span style="color:#1e1e1e;font-size:clamp(60px,10vw,140px);">${d.title.charAt(0).toUpperCase()}</span>`;
+        const reversed = i % 2 === 1;
+        return `
+          <div style="margin-bottom:2px;">
+            <div class="drop-card container" style="max-width:1440px;padding:0 40px;">
+              ${reversed ? `
+                <div class="drop-card__body" style="order:0;">
+                  <span class="drop-card__season">${d.season || ''}</span>
+                  <h3 class="drop-card__title">에드헤드<br />${d.title}</h3>
+                  <p class="drop-card__desc">${d.description || ''}</p>
+                  <span class="drop-card__status">${d.status === 'sold-out' ? 'Sold Out' : d.status}</span>
+                </div>
+                <div class="drop-card__img" style="background:#0f0f0f;">${imgHtml}</div>
+              ` : `
+                <div class="drop-card__img" style="background:#111;">${imgHtml}</div>
+                <div class="drop-card__body">
+                  <span class="drop-card__season">${d.season || ''}</span>
+                  <h3 class="drop-card__title">에드헤드<br />${d.title}</h3>
+                  <p class="drop-card__desc">${d.description || ''}</p>
+                  <span class="drop-card__status">${d.status === 'sold-out' ? 'Sold Out' : d.status}</span>
+                  ${d.status !== 'sold-out' ? `<div style="margin-top:20px;"><a href="shop.html" class="btn btn--outline" style="font-size:10px;padding:10px 20px;">View Stock</a></div>` : ''}
+                </div>
+              `}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+  } catch (e) { /* silently fail — keep fallback */ }
+}
+
+// Poll drops page every 15 seconds so admin edits appear without a manual refresh
+if (document.getElementById('pastDropsList')) {
+  setInterval(loadDropsPage, 15000);
+}
+
+// =========================================================
 // COUNTDOWN TIMER
 // =========================================================
+let _countdownTarget = null;
+
 function initCountdown() {
   const el = document.getElementById('countdown');
   if (!el) return;
 
-  // Next drop: set to 7 days from now
-  const target = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  // Default: 7 days from now (overridden by loadDropsPage when a drop date exists)
+  _countdownTarget = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
   function tick() {
-    const diff = target - Date.now();
+    const diff = _countdownTarget - Date.now();
     if (diff <= 0) {
       el.innerHTML = '<span style="color:var(--accent);font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;">Live Now</span>';
       return;

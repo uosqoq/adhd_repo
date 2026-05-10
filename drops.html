@@ -9,7 +9,7 @@
 </head>
 <body class="page-fade">
 
-  <div class="announcement-bar">
+  <div class="announcement-bar" id="announcementBar">
     Next Drop: 에드헤드 Vol. 3 — June 7 &nbsp;·&nbsp; Notify me below
   </div>
 
@@ -50,11 +50,11 @@
   <section class="drops-hero">
     <div class="drops-hero__bg-text">DROPS</div>
     <div class="drops-hero__content container" style="padding:100px 40px 80px;">
-      <p class="hero__eyebrow">Limited Edition</p>
-      <h1 class="hero__title" style="color:var(--black);">
+      <p class="hero__eyebrow" id="dropsHeroEyebrow">Limited Edition</p>
+      <h1 class="hero__title" id="dropsHeroTitle" style="color:var(--black);">
         에드헤드<br />Vol. 3 — Hyperfocus
       </h1>
-      <p class="hero__sub" style="color:#555;">
+      <p class="hero__sub" id="dropsHeroSub" style="color:#555;">
         The next chapter drops June 7, 2026. A collection defined by obsession, isolation, and hyper-concentration. Limited units. Once it's gone, it's gone.
       </p>
       <div class="countdown" id="countdown"></div>
@@ -66,17 +66,11 @@
 
   <!-- Marquee -->
   <div class="marquee-section">
-    <div class="marquee-track">
-      <span>Vol. 3</span><span class="accent">Hyperfocus</span>
-      <span>June 7, 2026</span><span class="accent">·</span>
+    <div class="marquee-track" id="marqueeTrack">
+      <span>ADHD</span><span class="accent">에드헤드</span>
       <span>Limited Units</span><span class="accent">·</span>
       <span>ADHD</span><span class="accent">에드헤드</span>
-      <span>·</span>
-      <span>Vol. 3</span><span class="accent">Hyperfocus</span>
-      <span>June 7, 2026</span><span class="accent">·</span>
       <span>Limited Units</span><span class="accent">·</span>
-      <span>ADHD</span><span class="accent">에드헤드</span>
-      <span>·</span>
     </div>
   </div>
 
@@ -87,42 +81,7 @@
     </div>
   </div>
 
-  <!-- Drop: Vol. 2 -->
-  <div style="margin-bottom:2px;">
-    <div class="drop-card container" style="max-width:1440px;padding:0 40px;">
-      <div class="drop-card__img" style="background:#111;">
-        <span style="color:#1e1e1e;font-size:clamp(60px,10vw,140px);">V2</span>
-      </div>
-      <div class="drop-card__body">
-        <span class="drop-card__season">Volume 2 — FW25</span>
-        <h3 class="drop-card__title">에드헤드<br />Restless</h3>
-        <p class="drop-card__desc">
-          Fall/Winter 2025. Built around the constant motion of the ADHD body — never still, always sensing. Heavyweight fleece, motion-specific cuts, and functional cargo details throughout.
-        </p>
-        <span class="drop-card__status">Sold Out</span>
-        <div style="margin-top:20px;">
-          <a href="shop.html" class="btn btn--outline" style="font-size:10px;padding:10px 20px;">View Remaining Stock</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Drop: Vol. 1 (reversed layout) -->
-  <div style="margin-bottom:2px;">
-    <div class="drop-card container" style="max-width:1440px;padding:0 40px;">
-      <div class="drop-card__body" style="order:0;">
-        <span class="drop-card__season">Volume 1 — SS25</span>
-        <h3 class="drop-card__title">에드헤드<br />Origin</h3>
-        <p class="drop-card__desc">
-          Where it all started. Spring/Summer 2025 was the debut collection — 12 pieces, all sold out in 4 minutes. The basics: tees, crewnecks, and one statement jacket that went everywhere.
-        </p>
-        <span class="drop-card__status">Sold Out</span>
-      </div>
-      <div class="drop-card__img" style="background:#0f0f0f;">
-        <span style="color:#1a1a1a;font-size:clamp(60px,10vw,140px);">V1</span>
-      </div>
-    </div>
-  </div>
+  <div id="pastDropsList"></div>
 
   <!-- Drop Sign-Up Strip -->
   <section style="background:#0d0d0d;border-top:1px solid #1c1c1c;border-bottom:1px solid #1c1c1c;padding:80px 0;margin-top:64px;">

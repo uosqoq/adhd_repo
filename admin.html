@@ -44,8 +44,13 @@
       <button class="admin-tab-btn" data-tab="customers"><span class="icon">◎</span> Customers</button>
       <button class="admin-tab-btn" data-tab="discounts"><span class="icon">◇</span> Discounts</button>
 
+      <p class="admin-sidebar-title" style="margin-top:24px;">Content</p>
+      <button class="admin-tab-btn" data-tab="banners"><span class="icon">◧</span> Banners</button>
+      <button class="admin-tab-btn" data-tab="drops"><span class="icon">◐</span> Drops</button>
+      <button class="admin-tab-btn" data-tab="add-drop"><span class="icon">＋</span> Add Drop</button>
+
       <p class="admin-sidebar-title" style="margin-top:24px;">Config</p>
-      <button class="admin-tab-btn" data-tab="settings"><span class="icon">◈</span> Site Settings</button>
+      <button class="admin-tab-btn" data-tab="settings"><span class="icon">◈</span> Settings</button>
     </aside>
 
     <!-- Main -->
@@ -265,16 +270,20 @@
         </div>
       </div>
 
-      <!-- ===== SETTINGS ===== -->
-      <div class="admin-tab-panel" id="tab-settings">
-        <h1 class="admin-page-title">Site Settings</h1>
+      <!-- ===== BANNERS ===== -->
+      <div class="admin-tab-panel" id="tab-banners">
+        <h1 class="admin-page-title">Banners</h1>
         <div class="admin-card">
           <p class="admin-card-title">Homepage Content</p>
-          <form id="settingsForm">
+          <form id="bannersForm">
             <div style="display:flex;flex-direction:column;gap:16px;">
               <div class="admin-form-group">
                 <label>Announcement Bar Text</label>
                 <input type="text" id="settingAnnouncement" />
+              </div>
+              <div class="admin-form-group">
+                <label>Hero Eyebrow Text</label>
+                <input type="text" id="settingHeroEyebrow" placeholder="e.g. 에드헤드 — Spring / Summer 2026" />
               </div>
               <div class="admin-form-group">
                 <label>Hero Title</label>
@@ -286,11 +295,83 @@
               </div>
             </div>
             <div style="margin-top:20px;">
-              <button type="submit" class="admin-btn admin-btn--primary">Save Settings</button>
+              <button type="submit" class="admin-btn admin-btn--primary">Save Banners</button>
             </div>
           </form>
         </div>
+      </div>
 
+      <!-- ===== DROPS ===== -->
+      <div class="admin-tab-panel" id="tab-drops">
+        <h1 class="admin-page-title">Drops</h1>
+        <div class="admin-toolbar">
+          <button class="admin-btn admin-btn--primary" onclick="document.querySelector('[data-tab=add-drop]').click()">+ Add Drop</button>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr>
+              <th>Title</th><th>Season</th><th>Date</th><th>Status</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="drops-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== ADD DROP ===== -->
+      <div class="admin-tab-panel" id="tab-add-drop">
+        <h1 class="admin-page-title">Add Drop</h1>
+        <div class="admin-card">
+          <form id="addDropForm">
+            <div class="admin-form-grid">
+              <div class="admin-form-group admin-form-full">
+                <label>Drop Title</label>
+                <input type="text" name="dtitle" placeholder="e.g. Hyperfocus" required />
+              </div>
+              <div class="admin-form-group admin-form-full">
+                <label>Season Label</label>
+                <input type="text" name="dseason" placeholder="e.g. Volume 3 — SS26" required />
+              </div>
+              <div class="admin-form-group admin-form-full">
+                <label>Description</label>
+                <textarea name="ddesc" rows="4" placeholder="Describe this drop..." style="background:#1a1a1a;border:1px solid #222;color:var(--white);font-family:var(--font-sans);font-size:13px;padding:11px 14px;outline:none;width:100%;resize:vertical;box-sizing:border-box;"></textarea>
+              </div>
+              <div class="admin-form-group">
+                <label>Drop Date &amp; Time</label>
+                <input type="datetime-local" name="ddate" />
+              </div>
+              <div class="admin-form-group">
+                <label>Status</label>
+                <select name="dstatus">
+                  <option value="upcoming">Upcoming</option>
+                  <option value="active">Active / Live</option>
+                  <option value="sold-out">Sold Out</option>
+                </select>
+              </div>
+              <div class="admin-form-group admin-form-full">
+                <label>Images <span style="color:var(--gray-700);font-weight:400;">(up to 8 · JPG, PNG, WebP)</span></label>
+                <div class="img-uploader" id="addDropImgUploader">
+                  <input type="file" accept="image/*" multiple id="addDropImgInput" />
+                  <div class="img-uploader__icon">↑</div>
+                  <p class="img-uploader__label">Drop images here or click to upload</p>
+                  <p class="img-uploader__sub">Max 10 MB each · First image becomes primary</p>
+                </div>
+                <div class="img-uploading-bar" id="addDropImgBar" style="display:none;margin-top:12px;">
+                  <div class="img-uploading-bar__fill" id="addDropImgBarFill"></div>
+                </div>
+                <div class="img-preview-grid" id="addDropImgPreview" style="margin-top:12px;"></div>
+              </div>
+            </div>
+            <div style="margin-top:24px;display:flex;gap:12px;">
+              <button type="submit" class="admin-btn admin-btn--primary">Add Drop</button>
+              <button type="reset" class="admin-btn">Clear</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ===== SETTINGS ===== -->
+      <div class="admin-tab-panel" id="tab-settings">
+        <h1 class="admin-page-title">Settings</h1>
         <div class="admin-card">
           <p class="admin-card-title">Admin Credentials</p>
           <div style="display:flex;flex-direction:column;gap:8px;">
@@ -366,6 +447,62 @@
         <div style="margin-top:24px;display:flex;gap:12px;">
           <button type="submit" class="admin-btn admin-btn--primary">Save Changes</button>
           <button type="button" class="admin-btn" onclick="closeEditModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Drop Modal -->
+  <div class="admin-modal-overlay" id="editDropModal">
+    <div class="admin-modal">
+      <div class="admin-modal-header">
+        <h2>Edit Drop</h2>
+        <button class="admin-btn admin-btn--sm" onclick="closeEditDropModal()">✕ Close</button>
+      </div>
+      <form id="editDropForm">
+        <input type="hidden" id="editDropId" />
+        <div class="admin-form-grid">
+          <div class="admin-form-group admin-form-full">
+            <label>Drop Title</label>
+            <input type="text" id="editDropTitle" required />
+          </div>
+          <div class="admin-form-group admin-form-full">
+            <label>Season Label</label>
+            <input type="text" id="editDropSeason" required />
+          </div>
+          <div class="admin-form-group admin-form-full">
+            <label>Description</label>
+            <textarea id="editDropDesc" rows="4" style="background:#1a1a1a;border:1px solid #222;color:var(--white);font-family:var(--font-sans);font-size:13px;padding:11px 14px;outline:none;width:100%;resize:vertical;box-sizing:border-box;"></textarea>
+          </div>
+          <div class="admin-form-group">
+            <label>Drop Date &amp; Time</label>
+            <input type="datetime-local" id="editDropDate" />
+          </div>
+          <div class="admin-form-group">
+            <label>Status</label>
+            <select id="editDropStatus">
+              <option value="upcoming">Upcoming</option>
+              <option value="active">Active / Live</option>
+              <option value="sold-out">Sold Out</option>
+            </select>
+          </div>
+          <div class="admin-form-group admin-form-full">
+            <label>Images <span style="color:var(--gray-700);font-weight:400;">(up to 8 · JPG, PNG, WebP)</span></label>
+            <div class="img-uploader" id="editDropImgUploader">
+              <input type="file" accept="image/*" multiple id="editDropImgInput" />
+              <div class="img-uploader__icon">↑</div>
+              <p class="img-uploader__label">Drop images here or click to upload</p>
+              <p class="img-uploader__sub">Max 10 MB each</p>
+            </div>
+            <div class="img-uploading-bar" id="editDropImgBar" style="display:none;margin-top:12px;">
+              <div class="img-uploading-bar__fill" id="editDropImgBarFill"></div>
+            </div>
+            <div class="img-preview-grid" id="editDropImgPreview" style="margin-top:12px;"></div>
+          </div>
+        </div>
+        <div style="margin-top:24px;display:flex;gap:12px;">
+          <button type="submit" class="admin-btn admin-btn--primary">Save Changes</button>
+          <button type="button" class="admin-btn" onclick="closeEditDropModal()">Cancel</button>
         </div>
       </form>
     </div>

@@ -30,17 +30,52 @@ async function uploadImagesToAPI(files, barEl, fillEl) {
   return urls;
 }
 
-function renderImgPreview(previewEl, urls, removeFn) {
-  previewEl.innerHTML = urls.length
-    ? urls.map((url, i) => `
-        <div class="img-preview-item">
-          <img src="${url}" alt="" loading="lazy" />
-          ${i === 0 ? '<span class="img-preview-item__primary">Primary</span>' : ''}
-          <button class="img-preview-item__remove" type="button" data-idx="${i}">✕</button>
-        </div>`).join('')
-    : '';
+function renderImgPreview(previewEl, urls, removeFn, reorderFn = null) {
+  if (!urls.length) { previewEl.innerHTML = ''; return; }
+
+  previewEl.innerHTML = urls.map((url, i) => `
+    <div class="img-preview-item${reorderFn ? ' img-preview-item--draggable' : ''}"
+         data-idx="${i}" ${reorderFn ? 'draggable="true"' : ''}>
+      <img src="${url}" alt="" loading="lazy" />
+      ${i === 0 ? '<span class="img-preview-item__primary">Primary</span>' : ''}
+      ${reorderFn ? '<span class="img-preview-item__drag" title="Drag to reorder">⠿</span>' : ''}
+      <button class="img-preview-item__remove" type="button" data-idx="${i}">✕</button>
+    </div>`).join('');
+
   previewEl.querySelectorAll('.img-preview-item__remove').forEach(btn => {
     btn.addEventListener('click', () => removeFn(parseInt(btn.dataset.idx)));
+  });
+
+  if (!reorderFn) return;
+
+  let dragSrcIdx = null;
+  previewEl.querySelectorAll('.img-preview-item').forEach(item => {
+    item.addEventListener('dragstart', e => {
+      dragSrcIdx = parseInt(item.dataset.idx);
+      item.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    item.addEventListener('dragend', () => {
+      item.classList.remove('dragging');
+      previewEl.querySelectorAll('.img-preview-item').forEach(el => el.classList.remove('drag-over'));
+    });
+    item.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      previewEl.querySelectorAll('.img-preview-item').forEach(el => el.classList.remove('drag-over'));
+      item.classList.add('drag-over');
+    });
+    item.addEventListener('dragleave', () => item.classList.remove('drag-over'));
+    item.addEventListener('drop', e => {
+      e.preventDefault();
+      const targetIdx = parseInt(item.dataset.idx);
+      if (dragSrcIdx === null || dragSrcIdx === targetIdx) return;
+      const newUrls = [...urls];
+      const [moved] = newUrls.splice(dragSrcIdx, 1);
+      newUrls.splice(targetIdx, 0, moved);
+      dragSrcIdx = null;
+      reorderFn(newUrls);
+    });
   });
 }
 
@@ -52,10 +87,17 @@ function initImgUploader(zoneId, inputId, previewId, getURLs, setURLs, barId, fi
   const fill    = document.getElementById(fillId);
   if (!zone || !input) return;
 
-  const removeFn = idx => {
+  let removeFn, reorderFn;
+
+  removeFn = idx => {
     const urls = getURLs().filter((_, i) => i !== idx);
     setURLs(urls);
-    renderImgPreview(preview, urls, removeFn);
+    renderImgPreview(preview, urls, removeFn, reorderFn);
+  };
+
+  reorderFn = newUrls => {
+    setURLs(newUrls);
+    renderImgPreview(preview, newUrls, removeFn, reorderFn);
   };
 
   const handleFiles = async files => {
@@ -67,7 +109,7 @@ function initImgUploader(zoneId, inputId, previewId, getURLs, setURLs, barId, fi
       const newURLs = await uploadImagesToAPI(chosen, bar, fill);
       const merged  = [...existing, ...newURLs];
       setURLs(merged);
-      renderImgPreview(preview, merged, removeFn);
+      renderImgPreview(preview, merged, removeFn, reorderFn);
     } catch (e) { console.error(e); }
   };
 
@@ -88,7 +130,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   ADHD.renderNavAuth();
   initTabs();
-  await Promise.all([renderDashboard(), renderProducts(), renderOrders(), renderCustomers(), renderDiscounts(), renderSettings()]);
+  await Promise.all([renderDashboard(), renderProducts(), renderOrders(), renderCustomers(), renderDiscounts(), renderBanners(), renderDrops()]);
 });
 
 // =========================================================
@@ -432,24 +474,162 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // =========================================================
-// SETTINGS
+// BANNERS
 // =========================================================
-async function renderSettings() {
+async function renderBanners() {
   const s = await ADHD.getSettings();
   document.getElementById('settingAnnouncement').value = s.announcementBar || '';
+  document.getElementById('settingHeroEyebrow').value  = s.heroEyebrow || '';
   document.getElementById('settingHeroTitle').value    = s.heroTitle || '';
   document.getElementById('settingHeroSub').value      = s.heroSub || '';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('settingsForm')?.addEventListener('submit', async e => {
+  document.getElementById('bannersForm')?.addEventListener('submit', async e => {
     e.preventDefault();
     await ADHD.saveSettings({
       announcementBar: document.getElementById('settingAnnouncement').value,
+      heroEyebrow:     document.getElementById('settingHeroEyebrow').value,
       heroTitle:       document.getElementById('settingHeroTitle').value,
       heroSub:         document.getElementById('settingHeroSub').value,
     });
-    showToast('Settings saved!');
+    showToast('Banners saved!');
+  });
+});
+
+// =========================================================
+// DROPS
+// =========================================================
+let addDropImageURLs  = [];
+let editDropImageURLs = [];
+
+async function renderDrops() {
+  const drops = await ADHD.getDrops();
+  const tbody = document.getElementById('drops-body');
+  if (!drops.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:48px;color:var(--gray-700);">No drops yet.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = drops.map(d => `
+    <tr>
+      <td style="font-weight:500;">${d.title}</td>
+      <td style="color:var(--gray-500);font-size:12px;">${d.season || '—'}</td>
+      <td style="color:var(--gray-500);font-size:12px;">${d.date ? new Date(d.date).toLocaleDateString() : '—'}</td>
+      <td><span class="status-badge status-${d.status === 'upcoming' ? 'processing' : d.status === 'active' ? 'shipped' : 'refunded'}">${d.status}</span></td>
+      <td>
+        <div style="display:flex;gap:8px;">
+          <button class="admin-btn admin-btn--sm" onclick="openEditDropModal('${d._id}')">Edit</button>
+          <button class="admin-btn admin-btn--sm admin-btn--danger" onclick="deleteDrop('${d._id}')">Delete</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+async function deleteDrop(id) {
+  if (!confirm('Delete this drop?')) return;
+  await ADHD.deleteDrop(id);
+  await renderDrops();
+  showToast('Drop deleted.');
+}
+
+async function openEditDropModal(id) {
+  const drops = await ADHD.getDrops();
+  const d = drops.find(x => x._id === id);
+  if (!d) return;
+
+  document.getElementById('editDropId').value     = d._id;
+  document.getElementById('editDropTitle').value  = d.title;
+  document.getElementById('editDropSeason').value = d.season || '';
+  document.getElementById('editDropDesc').value   = d.description || '';
+  document.getElementById('editDropStatus').value = d.status;
+
+  if (d.date) {
+    const local = new Date(d.date);
+    local.setMinutes(local.getMinutes() - local.getTimezoneOffset());
+    document.getElementById('editDropDate').value = local.toISOString().slice(0, 16);
+  } else {
+    document.getElementById('editDropDate').value = '';
+  }
+
+  editDropImageURLs = Array.isArray(d.images) ? [...d.images] : [];
+  const preview = document.getElementById('editDropImgPreview');
+
+  let removeFn, reorderFn;
+  removeFn = idx => {
+    editDropImageURLs = editDropImageURLs.filter((_, i) => i !== idx);
+    renderImgPreview(preview, editDropImageURLs, removeFn, reorderFn);
+  };
+  reorderFn = newUrls => {
+    editDropImageURLs = newUrls;
+    renderImgPreview(preview, editDropImageURLs, removeFn, reorderFn);
+  };
+  renderImgPreview(preview, editDropImageURLs, removeFn, reorderFn);
+
+  document.getElementById('editDropModal').style.display = 'flex';
+}
+
+function closeEditDropModal() {
+  document.getElementById('editDropModal').style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initImgUploader(
+    'addDropImgUploader', 'addDropImgInput', 'addDropImgPreview',
+    () => addDropImageURLs, v => { addDropImageURLs = v; },
+    'addDropImgBar', 'addDropImgBarFill'
+  );
+
+  initImgUploader(
+    'editDropImgUploader', 'editDropImgInput', 'editDropImgPreview',
+    () => editDropImageURLs, v => { editDropImageURLs = v; },
+    'editDropImgBar', 'editDropImgBarFill'
+  );
+
+  document.getElementById('addDropForm')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const f   = e.target;
+    const btn = f.querySelector('[type=submit]');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+      await ADHD.addDrop({
+        title:       f.dtitle.value,
+        season:      f.dseason.value,
+        description: f.ddesc.value,
+        date:        f.ddate.value || null,
+        status:      f.dstatus.value,
+        images:      addDropImageURLs,
+      });
+      f.reset();
+      addDropImageURLs = [];
+      document.getElementById('addDropImgPreview').innerHTML = '';
+      await renderDrops();
+      showToast('Drop added!');
+      document.querySelector('[data-tab="drops"]').click();
+    } finally {
+      btn.disabled = false; btn.textContent = 'Add Drop';
+    }
+  });
+
+  document.getElementById('editDropForm')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = e.target.querySelector('[type=submit]');
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+      await ADHD.updateDrop(document.getElementById('editDropId').value, {
+        title:       document.getElementById('editDropTitle').value,
+        season:      document.getElementById('editDropSeason').value,
+        description: document.getElementById('editDropDesc').value,
+        date:        document.getElementById('editDropDate').value || null,
+        status:      document.getElementById('editDropStatus').value,
+        images:      editDropImageURLs,
+      });
+      closeEditDropModal();
+      await renderDrops();
+      showToast('Drop updated!');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Save Changes';
+    }
   });
 });
 

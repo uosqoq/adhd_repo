@@ -104,6 +104,14 @@ const ADHD = {
   deleteDiscount(id)   { return this.del('/discounts/' + id); },
 
   // -------------------------------------------------------
+  // DROPS
+  // -------------------------------------------------------
+  getDrops()          { return this.get('/drops'); },
+  addDrop(data)       { return this.post('/drops', data); },
+  updateDrop(id, data){ return this.patch('/drops/' + id, data); },
+  deleteDrop(id)      { return this.del('/drops/' + id); },
+
+  // -------------------------------------------------------
   // SETTINGS
   // -------------------------------------------------------
   getSettings()       { return this.get('/settings'); },
