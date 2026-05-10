@@ -204,6 +204,13 @@ async function loadDropsPage() {
         if (notifyBtn)  notifyBtn.style.display  = '';
       }
 
+      const heroImg = document.getElementById('dropsHeroImg');
+      if (heroImg) {
+        heroImg.innerHTML = featured.images && featured.images[0]
+          ? `<img src="${featured.images[0]}" alt="${featured.title}" />`
+          : '<div class="drops-hero__bg-text">DROPS</div>';
+      }
+
       const marquee = document.getElementById('marqueeTrack');
       if (marquee) {
         const dateStr = featured.date
