@@ -610,8 +610,10 @@ document.addEventListener('DOMContentLoaded', () => {
       addDropImageURLs = [];
       document.getElementById('addDropImgPreview').innerHTML = '';
       await renderDrops();
-      showToast('Drop added!');
+      showToast('Drop published.');
       document.querySelector('[data-tab="drops"]').click();
+    } catch (err) {
+      showToast('Failed — try again.', 'error');
     } finally {
       btn.disabled = false; btn.textContent = 'Add Drop';
     }
@@ -632,7 +634,9 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       closeEditDropModal();
       await renderDrops();
-      showToast('Drop updated!');
+      showToast('Drop saved.');
+    } catch (err) {
+      showToast('Failed — try again.', 'error');
     } finally {
       btn.disabled = false; btn.textContent = 'Save Changes';
     }
@@ -642,21 +646,23 @@ document.addEventListener('DOMContentLoaded', () => {
 // =========================================================
 // TOAST
 // =========================================================
-function showToast(msg) {
+function showToast(msg, type = 'success') {
   let toast = document.getElementById('adminToast');
   if (!toast) {
     toast = document.createElement('div');
     toast.id = 'adminToast';
     toast.style.cssText = `
-      position:fixed;bottom:32px;right:32px;background:var(--accent);color:var(--black);
+      position:fixed;bottom:32px;right:32px;
       font-family:var(--font-display);font-size:11px;font-weight:700;letter-spacing:0.12em;
       text-transform:uppercase;padding:12px 20px;z-index:9999;
       opacity:0;transition:opacity 0.2s ease;pointer-events:none;
     `;
     document.body.appendChild(toast);
   }
+  toast.style.background = type === 'error' ? '#c0392b' : 'var(--accent)';
+  toast.style.color      = type === 'error' ? '#fff'    : 'var(--black)';
   toast.textContent = msg;
   toast.style.opacity = '1';
   clearTimeout(toast._t);
-  toast._t = setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+  toast._t = setTimeout(() => { toast.style.opacity = '0'; }, 3000);
 }
