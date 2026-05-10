@@ -134,15 +134,21 @@ async function loadBanners() {
 }
 
 async function loadFeaturedDrop() {
-  const card = document.getElementById('featuredDrop');
+  const section = document.getElementById('featuredDropSection');
+  const card    = document.getElementById('featuredDrop');
   if (!card) return;
   try {
     const drops = await ADHD.getDrops();
-    if (!drops.length) return;
-    const drop = drops.find(d => d.status === 'upcoming') ||
-                 drops.find(d => d.status === 'active') ||
-                 drops[0];
-    if (!drop) return;
+    const drop = (drops || []).find(d => d.status === 'upcoming') ||
+                 (drops || []).find(d => d.status === 'active') ||
+                 (drops || [])[0];
+
+    if (!drop) {
+      if (section) section.style.display = 'none';
+      return;
+    }
+
+    if (section) section.style.display = '';
 
     const imgHtml = drop.images && drop.images[0]
       ? `<img src="${drop.images[0]}" style="width:100%;height:100%;object-fit:cover;" />`
@@ -163,7 +169,9 @@ async function loadFeaturedDrop() {
         <div style="margin-top:24px;"><a href="drops.html" class="btn btn--accent">View Drop</a></div>
       </div>
     `;
-  } catch (e) { /* silently fail — show fallback HTML */ }
+  } catch (e) {
+    if (section) section.style.display = 'none';
+  }
 }
 
 async function loadDropsPage() {
@@ -182,13 +190,20 @@ async function loadDropsPage() {
     const featured = drops.find(d => d.status === 'upcoming') ||
                      drops.find(d => d.status === 'active');
 
-    if (featured && heroTitle) {
-      document.getElementById('dropsHeroTitle').innerHTML = `에드헤드<br />${featured.title}`;
+    const countdown  = document.getElementById('countdown');
+    const notifyBtn  = document.getElementById('dropsHeroNotify');
+
+    if (featured) {
+      if (heroTitle) heroTitle.innerHTML = `에드헤드<br />${featured.title}`;
       const sub = document.getElementById('dropsHeroSub');
       if (sub && featured.description) sub.textContent = featured.description;
-      if (featured.date) _countdownTarget = new Date(featured.date);
 
-      // Update marquee with live drop info
+      if (featured.date) {
+        _countdownTarget = new Date(featured.date);
+        if (countdown) countdown.style.display = '';
+        if (notifyBtn)  notifyBtn.style.display  = '';
+      }
+
       const marquee = document.getElementById('marqueeTrack');
       if (marquee) {
         const dateStr = featured.date
@@ -202,6 +217,9 @@ async function loadDropsPage() {
           <span>·</span>`;
         marquee.innerHTML = chunk + chunk;
       }
+    } else {
+      if (countdown) countdown.style.display = 'none';
+      if (notifyBtn)  notifyBtn.style.display  = 'none';
     }
 
     // Render past drops (all non-featured)

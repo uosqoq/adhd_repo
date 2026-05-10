@@ -504,10 +504,16 @@ let addDropImageURLs  = [];
 let editDropImageURLs = [];
 
 async function renderDrops() {
-  const drops = await ADHD.getDrops();
   const tbody = document.getElementById('drops-body');
+  let drops;
+  try {
+    drops = await ADHD.getDrops();
+  } catch (e) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:48px;color:var(--gray-700);">Could not load drops — API unavailable.</td></tr>';
+    return;
+  }
   if (!drops.length) {
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:48px;color:var(--gray-700);">No drops yet.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:48px;color:var(--gray-700);">No drops yet. Use "Add Drop" to create one.</td></tr>';
     return;
   }
   tbody.innerHTML = drops.map(d => `
