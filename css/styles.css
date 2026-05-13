@@ -910,6 +910,12 @@ ul { list-style: none; }
 .hero__scroll,
 .hero__scroll-line { display: none; }
 
+@media (max-width: 768px) {
+  .hero {
+    height: clamp(220px, 56vw, 400px);
+  }
+}
+
 /* =========================================================
    MARQUEE
    ========================================================= */
