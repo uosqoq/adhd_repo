@@ -9,9 +9,7 @@
 </head>
 <body class="page-fade">
 
-  <div class="announcement-bar">
-    Free shipping on orders over $150 &nbsp;·&nbsp; New Drop: 에드헤드 Vol. 3 — June 7
-  </div>
+  <div class="announcement-bar" id="announcementBar"></div>
 
   <nav class="nav">
     <div class="container nav__inner">
@@ -49,8 +47,8 @@
   <!-- About Hero -->
   <section class="container">
     <div class="about-hero">
-      <p class="about-hero__label">About ADHD (에드헤드)</p>
-      <h1 class="about-hero__title">
+      <p class="about-hero__label" id="aboutEyebrow">About ADHD (에드헤드)</p>
+      <h1 class="about-hero__title" id="aboutTitle">
         Built for the way<br />
         <span>some of us</span> actually think.
       </h1>
@@ -61,7 +59,7 @@
   <!-- Brand Story -->
   <section class="container">
     <div class="about-body">
-      <div class="about-body__text">
+      <div class="about-body__text" id="aboutIntro">
         <p>
           ADHD (에드헤드) started with a simple observation: the fashion world was built for people who move in straight lines. We don't. So we built something for the ones who move sideways — fast, loud, and always mid-thought.
         </p>
@@ -83,10 +81,10 @@
   <!-- Brand Statement -->
   <div style="background:#0d0d0d;border-top:1px solid #1c1c1c;border-bottom:1px solid #1c1c1c;padding:80px 0;">
     <div class="container" style="max-width:860px;">
-      <p style="font-family:var(--font-display);font-size:clamp(20px,3vw,40px);font-weight:700;letter-spacing:-0.01em;line-height:1.25;color:var(--white);">
+      <p id="aboutQuote" style="font-family:var(--font-display);font-size:clamp(20px,3vw,40px);font-weight:700;letter-spacing:-0.01em;line-height:1.25;color:var(--white);">
         "The world keeps telling us to slow down. We made clothes for the people who never will."
       </p>
-      <p style="font-size:12px;color:var(--gray-700);margin-top:20px;letter-spacing:0.06em;text-transform:uppercase;">
+      <p id="aboutQuoteBy" style="font-size:12px;color:var(--gray-700);margin-top:20px;letter-spacing:0.06em;text-transform:uppercase;">
         — Founder, ADHD (에드헤드)
       </p>
     </div>
@@ -98,7 +96,7 @@
       <div class="section-header">
         <h2 class="section-header__title">What We Stand For</h2>
       </div>
-      <div class="values-grid">
+      <div class="values-grid" id="aboutValuesGrid">
 
         <div class="value-card">
           <p class="value-card__num">01</p>
@@ -166,16 +164,12 @@
         </div>
         <div>
           <p class="footer__col-title">Follow</p>
-          <ul class="footer__col-links">
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">TikTok</a></li>
-            <li><a href="#">Twitter / X</a></li>
-          </ul>
+          <ul class="footer__col-links" id="footerFollowLinks"></ul>
         </div>
       </div>
       <div class="footer__bottom">
         <p class="footer__copy">© 2026 ADHD (에드헤드). All rights reserved.</p>
-        <div class="footer__socials"><a href="#">IG</a><a href="#">TK</a><a href="#">X</a></div>
+        <div class="footer__socials" id="footerSocials"></div>
       </div>
     </div>
   </footer>

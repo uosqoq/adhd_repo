@@ -10,9 +10,7 @@
 <body class="page-fade">
 
   <!-- Announcement Bar -->
-  <div class="announcement-bar" id="announcementBar">
-    Free shipping on orders over $150 &nbsp;·&nbsp; New Drop: 에드헤드 Vol. 3 — June 7
-  </div>
+  <div class="announcement-bar" id="announcementBar"></div>
 
   <!-- Navigation -->
   <nav class="nav">
@@ -75,8 +73,8 @@
         Built for the divergent mind. ADHD is a lifestyle brand for those who think sideways, move fast, and feel everything at full volume.
       </p>
       <div class="hero__ctas">
-        <a href="shop.html" class="btn btn--white">Shop Now</a>
-        <a href="drops.html" class="btn btn--outline">View Drops</a>
+        <a href="shop.html" class="btn btn--white" id="heroCta1">Shop Now</a>
+        <a href="drops.html" class="btn btn--outline" id="heroCta2">View Drops</a>
       </div>
     </div>
     <div class="hero__scroll">
@@ -86,20 +84,8 @@
   </section>
 
   <!-- Marquee -->
-  <div class="marquee-section">
-    <div class="marquee-track">
-      <span>ADHD</span><span class="accent">에드헤드</span>
-      <span>Wear Your Frequency</span><span class="accent">·</span>
-      <span>Volume 3</span><span class="accent">·</span>
-      <span>SS26</span><span class="accent">·</span>
-      <span>New Drop</span><span class="accent">June 7</span>
-      <span>·</span><span>ADHD</span><span class="accent">에드헤드</span>
-      <span>Wear Your Frequency</span><span class="accent">·</span>
-      <span>Volume 3</span><span class="accent">·</span>
-      <span>SS26</span><span class="accent">·</span>
-      <span>New Drop</span><span class="accent">June 7</span>
-      <span>·</span>
-    </div>
+  <div class="marquee-section" id="homeMarqueeSection" style="display:none;">
+    <div class="marquee-track" id="homeMarqueeTrack"></div>
   </div>
 
   <!-- Featured Drop Banner -->
@@ -175,26 +161,18 @@
           <ul class="footer__col-links">
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
-            <li><a href="#">Size Guide</a></li>
-            <li><a href="#">Shipping & Returns</a></li>
+            <li><a href="size-guide.html">Size Guide</a></li>
+            <li><a href="policies.html">Shipping &amp; Returns</a></li>
           </ul>
         </div>
         <div>
           <p class="footer__col-title">Follow</p>
-          <ul class="footer__col-links">
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">TikTok</a></li>
-            <li><a href="#">Twitter / X</a></li>
-          </ul>
+          <ul class="footer__col-links" id="footerFollowLinks"></ul>
         </div>
       </div>
       <div class="footer__bottom">
         <p class="footer__copy">© 2026 ADHD (에드헤드). All rights reserved.</p>
-        <div class="footer__socials">
-          <a href="#">IG</a>
-          <a href="#">TK</a>
-          <a href="#">X</a>
-        </div>
+        <div class="footer__socials" id="footerSocials"></div>
       </div>
     </div>
   </footer>
@@ -232,11 +210,23 @@
 
     (async () => {
       const allProducts = await ADHD.getProducts();
-      const newArrivals = allProducts.filter(p => p.badge === 'New').slice(0, 4);
-      document.getElementById('newArrivalsGrid').innerHTML =
-        (newArrivals.length ? newArrivals : allProducts.slice(0, 4)).map(productCardHTML).join('');
-      const bestSellers = allProducts.slice(-4);
-      document.getElementById('bestSellersGrid').innerHTML = bestSellers.map(productCardHTML).join('');
+      const featured = allProducts.filter(p => p.featured).slice(0, 4);
+      const newArrivalsGrid = document.getElementById('newArrivalsGrid');
+      const newArrivalsSection = newArrivalsGrid?.closest('.section');
+      if (featured.length) {
+        newArrivalsGrid.innerHTML = featured.map(productCardHTML).join('');
+      } else if (newArrivalsSection) {
+        newArrivalsSection.style.display = 'none';
+      }
+
+      const bestSellers = allProducts.filter(p => p.bestSeller).slice(0, 4);
+      const bestSellersGrid = document.getElementById('bestSellersGrid');
+      const bestSellersSection = bestSellersGrid?.closest('.section');
+      if (bestSellers.length) {
+        bestSellersGrid.innerHTML = bestSellers.map(productCardHTML).join('');
+      } else if (bestSellersSection) {
+        bestSellersSection.style.display = 'none';
+      }
     })();
   </script>
 </body>

@@ -90,11 +90,30 @@ const ADHD = {
   getOrders()              { return this.get('/orders'); },
   createOrder(data)        { return this.post('/orders', data); },
   updateOrderStatus(id, status) { return this.patch('/orders/' + id + '/status', { status }); },
+  updateOrder(id, data)    { return this.patch('/orders/' + id, data); },
+  refundOrder(id, reason)  { return this.post('/orders/' + id + '/refund', { reason: reason || '' }); },
 
   // -------------------------------------------------------
   // CUSTOMERS
   // -------------------------------------------------------
-  getCustomers() { return this.get('/customers'); },
+  getCustomers()           { return this.get('/customers'); },
+  getCustomer(id)          { return this.get('/customers/' + id); },
+  updateCustomer(id, data) { return this.patch('/customers/' + id, data); },
+
+  // -------------------------------------------------------
+  // CATEGORIES
+  // -------------------------------------------------------
+  getCategories()          { return this.get('/categories'); },
+  addCategory(data)        { return this.post('/categories', data); },
+  updateCategory(id, data) { return this.patch('/categories/' + id, data); },
+  deleteCategory(id)       { return this.del('/categories/' + id); },
+
+  // -------------------------------------------------------
+  // MEDIA
+  // -------------------------------------------------------
+  getMedia()               { return this.get('/media'); },
+  updateMedia(id, data)    { return this.patch('/media/' + id, data); },
+  deleteMedia(id)          { return this.del('/media/' + id); },
 
   // -------------------------------------------------------
   // DISCOUNTS

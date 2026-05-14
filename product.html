@@ -9,9 +9,7 @@
 </head>
 <body class="page-fade">
 
-  <div class="announcement-bar" id="announcementBar">
-    Free shipping on orders over $150 &nbsp;·&nbsp; New Drop: 에드헤드 Vol. 3 — June 7
-  </div>
+  <div class="announcement-bar" id="announcementBar"></div>
 
   <nav class="nav">
     <div class="container nav__inner">
@@ -89,7 +87,7 @@
           <div style="margin-bottom:24px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
               <p style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-500);">Select Size</p>
-              <button style="font-size:11px;letter-spacing:0.06em;color:var(--gray-700);text-decoration:underline;background:none;border:none;cursor:pointer;padding:0;">Size Guide</button>
+              <a href="size-guide.html" style="font-size:11px;letter-spacing:0.06em;color:var(--gray-700);text-decoration:underline;">Size Guide</a>
             </div>
             <div class="size-grid" id="sizeGrid"></div>
           </div>
@@ -126,7 +124,7 @@
   <script>
     ADHD.renderNavAuth();
 
-    const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+    const DEFAULT_SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
     let selectedSize = null;
     let currentProduct = null;
 
@@ -200,7 +198,8 @@
 
       // Sizes
       const sizeGrid = document.getElementById('sizeGrid');
-      sizeGrid.innerHTML = SIZES.map(s => `
+      const sizes = (Array.isArray(p.sizes) && p.sizes.length) ? p.sizes : DEFAULT_SIZES;
+      sizeGrid.innerHTML = sizes.map(s => `
         <button class="size-btn${soldOut ? ' sold-out' : ''}" data-size="${s}" ${soldOut ? 'disabled' : ''}>${s}</button>
       `).join('');
       if (!soldOut) {

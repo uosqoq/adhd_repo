@@ -9,9 +9,7 @@
 </head>
 <body class="page-fade">
 
-  <div class="announcement-bar">
-    Free shipping on orders over $150 &nbsp;·&nbsp; New Drop: 에드헤드 Vol. 3 — June 7
-  </div>
+  <div class="announcement-bar" id="announcementBar"></div>
 
   <nav class="nav">
     <div class="container nav__inner">
@@ -48,9 +46,9 @@
 
   <!-- Contact Header -->
   <section class="container contact-section">
-    <p class="contact-section__eyebrow">Get In Touch</p>
-    <h1 class="contact-section__title">We actually read<br />every message.</h1>
-    <p class="contact-section__sub">
+    <p class="contact-section__eyebrow" id="contactEyebrow">Get In Touch</p>
+    <h1 class="contact-section__title" id="contactTitle">We actually read<br />every message.</h1>
+    <p class="contact-section__sub" id="contactSub">
       Questions about orders, sizing, press, or collabs — send it our way. We're fast. It's kind of our thing.
     </p>
 
@@ -106,7 +104,7 @@
 
         <div style="border-top:1px solid #1c1c1c;padding-top:40px;">
           <h3 style="font-family:var(--font-display);font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:20px;">Direct Lines</h3>
-          <div style="display:flex;flex-direction:column;gap:14px;">
+          <div id="contactEmailsList" style="display:flex;flex-direction:column;gap:14px;">
             <div>
               <p style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gray-500);margin-bottom:4px;">General</p>
               <p style="font-size:13px;color:var(--gray-300);">hello@adhd-brand.com</p>
@@ -124,11 +122,7 @@
 
         <div style="border-top:1px solid #1c1c1c;padding-top:40px;">
           <h3 style="font-family:var(--font-display);font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:16px;">Follow</h3>
-          <div style="display:flex;gap:16px;">
-            <a href="#" class="btn btn--outline" style="font-size:10px;padding:10px 16px;">Instagram</a>
-            <a href="#" class="btn btn--outline" style="font-size:10px;padding:10px 16px;">TikTok</a>
-            <a href="#" class="btn btn--outline" style="font-size:10px;padding:10px 16px;">Twitter / X</a>
-          </div>
+          <div id="contactFollowButtons" style="display:flex;gap:16px;flex-wrap:wrap;"></div>
         </div>
 
       </div>
@@ -159,16 +153,12 @@
         </div>
         <div>
           <p class="footer__col-title">Follow</p>
-          <ul class="footer__col-links">
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">TikTok</a></li>
-            <li><a href="#">Twitter / X</a></li>
-          </ul>
+          <ul class="footer__col-links" id="footerFollowLinks"></ul>
         </div>
       </div>
       <div class="footer__bottom">
         <p class="footer__copy">© 2026 ADHD (에드헤드). All rights reserved.</p>
-        <div class="footer__socials"><a href="#">IG</a><a href="#">TK</a><a href="#">X</a></div>
+        <div class="footer__socials" id="footerSocials"></div>
       </div>
     </div>
   </footer>

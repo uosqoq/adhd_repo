@@ -3,9 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Drops — ADHD (에드헤드)</title>
-  <meta name="description" content="Limited edition drops from ADHD (에드헤드)." />
+  <title>Size Guide — ADHD (에드헤드)</title>
+  <meta name="description" content="Size guide for ADHD (에드헤드)." />
   <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .size-table { width:100%; border-collapse:collapse; margin-top:16px; font-size:13px; }
+    .size-table th, .size-table td { border:1px solid #1c1c1c; padding:10px 14px; text-align:left; }
+    .size-table th { background:#0d0d0d; color:var(--gray-500); font-family:var(--font-display); font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; }
+    .size-table tbody tr:nth-child(odd) { background:#0a0a0a; }
+    .size-table-block { margin-top:48px; }
+    .size-table-block__name { font-family:var(--font-display); font-size:16px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; }
+  </style>
 </head>
 <body class="page-fade">
 
@@ -44,61 +52,23 @@
     <div class="cart-drawer__footer"><a href="#" class="btn-checkout">Checkout</a></div>
   </div>
 
-  <!-- Drops Hero — Next Drop Countdown -->
-  <section class="drops-hero">
-    <div class="drops-hero__inner">
-      <div class="drops-hero__content">
-        <p class="hero__eyebrow" id="dropsHeroEyebrow">Limited Edition</p>
-        <h1 class="hero__title" id="dropsHeroTitle" style="color:var(--black);">에드헤드</h1>
-        <p class="hero__sub" id="dropsHeroSub" style="color:#555;">The next drop is being prepared. Check back soon.</p>
-        <div class="countdown" id="countdown" style="display:none;"></div>
-        <div id="dropsHeroNotify" style="margin-top:8px;display:none;">
-          <a href="contact.html" class="btn btn--white" style="color:var(--black);background:var(--black);color:var(--white);">Notify Me</a>
-        </div>
-      </div>
-      <div class="drops-hero__img-col" id="dropsHeroImg">
-        <div class="drops-hero__bg-text">DROPS</div>
-      </div>
-    </div>
+  <section class="container" style="padding-top:80px;padding-bottom:40px;">
+    <p id="sizeEyebrow" style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray-500);">Size Guide</p>
+    <h1 id="sizeTitle" style="font-family:var(--font-display);font-size:clamp(36px,6vw,72px);font-weight:700;letter-spacing:-0.02em;margin-top:8px;">Find your fit.</h1>
+    <p id="sizeIntro" style="font-size:14px;color:var(--gray-300);line-height:1.7;max-width:680px;margin-top:16px;"></p>
   </section>
 
-  <!-- Marquee -->
-  <div class="marquee-section">
-    <div class="marquee-track" id="marqueeTrack">
-      <span>ADHD</span><span class="accent">에드헤드</span>
-      <span>Limited Units</span><span class="accent">·</span>
-      <span>ADHD</span><span class="accent">에드헤드</span>
-      <span>Limited Units</span><span class="accent">·</span>
+  <section class="container" style="padding-top:0;padding-bottom:80px;max-width:880px;">
+    <div id="sizeTablesContainer">
+      <p style="color:var(--gray-700);font-size:13px;">Sizing tables not yet published. Add them in admin → Pages → Size Guide.</p>
     </div>
-  </div>
-
-  <!-- Past Drops -->
-  <div class="container" style="padding-top:64px;">
-    <div class="section-header">
-      <h2 class="section-header__title">Past Drops</h2>
-    </div>
-  </div>
-
-  <div id="pastDropsList"></div>
-
-  <!-- Drop Sign-Up Strip -->
-  <section style="background:#0d0d0d;border-top:1px solid #1c1c1c;border-bottom:1px solid #1c1c1c;padding:80px 0;margin-top:64px;">
-    <div class="container" style="max-width:680px;text-align:center;">
-      <p style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;">Never Miss a Drop</p>
-      <h2 style="font-family:var(--font-display);font-size:clamp(24px,3.5vw,40px);font-weight:700;letter-spacing:-0.01em;margin-bottom:12px;">Get drop access before everyone else.</h2>
-      <p style="font-size:13px;color:var(--gray-500);margin-bottom:32px;">Join the list. Drops sell out in minutes — early access is the only way.</p>
-      <form class="newsletter-form" style="max-width:440px;margin:0 auto;" onsubmit="return false;">
-        <input type="email" placeholder="Your email address" required />
-        <button type="submit">Join</button>
-      </form>
-    </div>
+    <p id="sizeNotes" style="font-size:12px;color:var(--gray-500);line-height:1.7;margin-top:32px;"></p>
   </section>
 
   <footer>
     <div class="container">
       <div class="footer__grid">
         <div>
-          
           <a href="index.html"><img src="images/logo-white.png" alt="ADHD 에드헤드" class="footer__logo-img"></a>
           <p class="footer__brand-desc">A lifestyle brand built for the divergent mind.</p>
         </div>
@@ -114,6 +84,8 @@
           <ul class="footer__col-links">
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
+            <li><a href="size-guide.html">Size Guide</a></li>
+            <li><a href="policies.html">Shipping &amp; Returns</a></li>
           </ul>
         </div>
         <div>
