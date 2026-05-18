@@ -150,7 +150,7 @@ async function loadBanners() {
     renderHeroImage(s);
     renderAboutPage(s.pages?.about);
     renderContactPage(s.pages?.contact);
-    renderPoliciesPage(s.pages?.policies);
+    renderLegalPage(s.pages?.legal);
     renderSizeGuidePage(s.pages?.sizeGuide);
   } catch (e) { /* silently fail */ }
 }
@@ -266,23 +266,128 @@ function renderContactPage(contact) {
   }
 }
 
-function renderPoliciesPage(policies) {
-  if (!policies) return;
-  const slots = [
-    { wrap: 'policyShipping', titleEl: 'policyShippingTitle', bodyEl: 'policyShippingBody', data: policies.shipping },
-    { wrap: 'policyReturns',  titleEl: 'policyReturnsTitle',  bodyEl: 'policyReturnsBody',  data: policies.returns },
-  ];
-  for (const s of slots) {
-    const titleEl = document.getElementById(s.titleEl);
-    const bodyEl  = document.getElementById(s.bodyEl);
-    if (titleEl && s.data?.title) titleEl.textContent = s.data.title;
-    if (bodyEl) {
-      const body = s.data?.body || '';
-      bodyEl.innerHTML = body
-        ? body.split('\n').map(p => p.trim()).filter(Boolean).map(p => `<p>${escapeHtml(p)}</p>`).join('')
-        : '<p style="color:var(--gray-700);">Policy not yet published.</p>';
-    }
+// Legal documents — slug -> default title. Content is admin-editable via settings.pages.legal.
+const LEGAL_DOCS = [
+  { slug: 'terms',    title: 'Terms of Service' },
+  { slug: 'privacy',  title: 'Privacy Policy' },
+  { slug: 'refund',   title: 'Refund & Exchange Policy' },
+  { slug: 'shipping', title: 'Shipping & Delivery Policy' },
+  { slug: 'company',  title: 'Company Information' },
+];
+
+function renderLegalPage(legal) {
+  const bodyEl = document.getElementById('legalBody');
+  if (!bodyEl) return; // not the legal page
+
+  const titleEl = document.getElementById('legalTitle');
+  const effEl   = document.getElementById('legalEffective');
+  const navEl   = document.getElementById('legalNav');
+
+  const slug = new URLSearchParams(window.location.search).get('doc') || 'terms';
+  const meta = LEGAL_DOCS.find(d => d.slug === slug);
+
+  if (navEl) {
+    navEl.innerHTML = LEGAL_DOCS.map(d =>
+      `<a href="legal.html?doc=${d.slug}" style="font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:${d.slug === slug ? 'var(--white)' : 'var(--gray-700)'};">${escapeHtml(d.title)}</a>`
+    ).join('');
   }
+
+  if (!meta) {
+    if (titleEl) titleEl.textContent = 'Page Not Found';
+    document.title = 'Legal — ADHD (에드헤드)';
+    bodyEl.innerHTML = '<p style="color:var(--gray-700);">Unknown legal document. Use the links below.</p>';
+    return;
+  }
+
+  const data  = (legal && legal[slug]) || {};
+  const title = data.title || meta.title;
+  if (titleEl) titleEl.textContent = title;
+  document.title = title + ' — ADHD (에드헤드)';
+
+  if (effEl) effEl.textContent = data.effective ? ('Effective: ' + data.effective) : '';
+
+  bodyEl.innerHTML = data.body
+    ? renderMarkdown(data.body)
+    : '<p style="color:var(--gray-700);">This page has not been published yet.</p>';
+}
+
+// Minimal Markdown renderer — headings, lists, tables, blockquotes, hr, inline code/bold.
+function renderMarkdown(md) {
+  const inline = s => escapeHtml(s)
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  const lines = String(md).replace(/\r\n/g, '\n').split('\n');
+  const blockStart = /^(#{1,6}\s|[-*]\s|\d+\.\s|>|---+$|\|)/;
+  let html = '';
+  let i = 0;
+  while (i < lines.length) {
+    const trimmed = lines[i].trim();
+    if (!trimmed) { i++; continue; }
+
+    if (/^---+$/.test(trimmed)) { html += '<hr />'; i++; continue; }
+
+    const heading = /^(#{1,6})\s+(.*)$/.exec(trimmed);
+    if (heading) {
+      const level = Math.min(heading[1].length + 1, 6); // # -> h2
+      html += `<h${level}>${inline(heading[2])}</h${level}>`;
+      i++; continue;
+    }
+
+    const next = i + 1 < lines.length ? lines[i + 1].trim() : '';
+    if (trimmed.startsWith('|') && /^\|?[\s:|-]+\|?$/.test(next) && next.includes('-')) {
+      const parseRow = r => r.replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim());
+      const headers = parseRow(trimmed);
+      i += 2;
+      const rows = [];
+      while (i < lines.length && lines[i].trim().startsWith('|')) {
+        rows.push(parseRow(lines[i].trim()));
+        i++;
+      }
+      html += '<table><thead><tr>' + headers.map(h => `<th>${inline(h)}</th>`).join('') +
+        '</tr></thead><tbody>' +
+        rows.map(r => '<tr>' + r.map(c => `<td>${inline(c)}</td>`).join('') + '</tr>').join('') +
+        '</tbody></table>';
+      continue;
+    }
+
+    if (trimmed.startsWith('>')) {
+      const buf = [];
+      while (i < lines.length && lines[i].trim().startsWith('>')) {
+        buf.push(lines[i].trim().replace(/^>\s?/, ''));
+        i++;
+      }
+      html += `<blockquote>${inline(buf.join(' '))}</blockquote>`;
+      continue;
+    }
+
+    if (/^[-*]\s+/.test(trimmed)) {
+      const buf = [];
+      while (i < lines.length && /^[-*]\s+/.test(lines[i].trim())) {
+        buf.push(lines[i].trim().replace(/^[-*]\s+/, ''));
+        i++;
+      }
+      html += '<ul>' + buf.map(it => `<li>${inline(it)}</li>`).join('') + '</ul>';
+      continue;
+    }
+
+    if (/^\d+\.\s+/.test(trimmed)) {
+      const buf = [];
+      while (i < lines.length && /^\d+\.\s+/.test(lines[i].trim())) {
+        buf.push(lines[i].trim().replace(/^\d+\.\s+/, ''));
+        i++;
+      }
+      html += '<ol>' + buf.map(it => `<li>${inline(it)}</li>`).join('') + '</ol>';
+      continue;
+    }
+
+    const buf = [];
+    while (i < lines.length && lines[i].trim() && !blockStart.test(lines[i].trim())) {
+      buf.push(lines[i].trim());
+      i++;
+    }
+    html += `<p>${inline(buf.join(' '))}</p>`;
+  }
+  return html;
 }
 
 function escapeHtml(str) {

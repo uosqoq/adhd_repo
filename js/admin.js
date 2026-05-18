@@ -900,13 +900,7 @@ function renderPages(s) {
     document.getElementById('contactSub').value     = contact.sub || '';
     document.getElementById('contactEmails').value  = (contact.emails || []).map(e => `${e.label || ''} | ${e.address || ''}`).join('\n');
   }
-  const pol = pages.policies || {};
-  if (document.getElementById('policiesShippingTitle')) {
-    document.getElementById('policiesShippingTitle').value = (pol.shipping && pol.shipping.title) || 'Shipping';
-    document.getElementById('policiesShippingBody').value  = (pol.shipping && pol.shipping.body) || '';
-    document.getElementById('policiesReturnsTitle').value  = (pol.returns && pol.returns.title) || 'Returns';
-    document.getElementById('policiesReturnsBody').value   = (pol.returns && pol.returns.body) || '';
-  }
+  if (document.getElementById('legalDocSelect')) loadLegalDocIntoForm();
   const sg = pages.sizeGuide || {};
   if (document.getElementById('sizeEyebrow')) {
     document.getElementById('sizeEyebrow').value = sg.eyebrow || '';
@@ -919,6 +913,24 @@ function renderPages(s) {
       return [t.name || '', headerLine, rowLines].filter(Boolean).join('\n');
     }).join('\n\n');
   }
+}
+
+const LEGAL_DOC_TITLES = {
+  terms:    'Terms of Service',
+  privacy:  'Privacy Policy',
+  refund:   'Refund & Exchange Policy',
+  shipping: 'Shipping & Delivery Policy',
+  company:  'Company Information',
+};
+
+function loadLegalDocIntoForm() {
+  const select = document.getElementById('legalDocSelect');
+  if (!select) return;
+  const slug = select.value;
+  const doc  = ((SETTINGS_CACHE?.pages || {}).legal || {})[slug] || {};
+  document.getElementById('legalTitleInput').value     = doc.title || LEGAL_DOC_TITLES[slug] || '';
+  document.getElementById('legalEffectiveInput').value = doc.effective || '';
+  document.getElementById('legalBodyInput').value      = doc.body || '';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1012,25 +1024,27 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast('Size guide saved!');
   });
 
-  document.getElementById('policiesPageForm')?.addEventListener('submit', async e => {
+  document.getElementById('legalDocSelect')?.addEventListener('change', loadLegalDocIntoForm);
+
+  document.getElementById('legalPageForm')?.addEventListener('submit', async e => {
     e.preventDefault();
+    const slug = document.getElementById('legalDocSelect').value;
+    const existingLegal = (SETTINGS_CACHE?.pages || {}).legal || {};
     await ADHD.saveSettings({
       pages: {
         ...(SETTINGS_CACHE?.pages || {}),
-        policies: {
-          shipping: {
-            title: document.getElementById('policiesShippingTitle').value,
-            body:  document.getElementById('policiesShippingBody').value,
-          },
-          returns: {
-            title: document.getElementById('policiesReturnsTitle').value,
-            body:  document.getElementById('policiesReturnsBody').value,
+        legal: {
+          ...existingLegal,
+          [slug]: {
+            title:     document.getElementById('legalTitleInput').value,
+            effective: document.getElementById('legalEffectiveInput').value,
+            body:      document.getElementById('legalBodyInput').value,
           },
         },
       },
     });
     SETTINGS_CACHE = await ADHD.getSettings();
-    showToast('Policies saved!');
+    showToast('Legal page saved!');
   });
 
   document.getElementById('marqueeForm')?.addEventListener('submit', async e => {

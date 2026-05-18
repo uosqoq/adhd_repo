@@ -527,29 +527,35 @@
         </div>
 
         <div class="admin-card">
-          <p class="admin-card-title">Policies Page</p>
-          <p style="font-size:11px;color:var(--gray-700);margin-bottom:12px;">Lives at policies.html. Each section has a heading and body text.</p>
-          <form id="policiesPageForm">
+          <p class="admin-card-title">Legal Pages</p>
+          <p style="font-size:11px;color:var(--gray-700);margin-bottom:12px;">Lives at legal.html. Pick a document, edit it, and save. Body accepts Markdown (headings #/##, lists, tables, &gt; quotes). Omit the top-level title from the body — set it in the Title field.</p>
+          <form id="legalPageForm">
             <div class="admin-form-grid">
               <div class="admin-form-group admin-form-full">
-                <label>Shipping — Heading</label>
-                <input type="text" id="policiesShippingTitle" placeholder="Shipping" />
+                <label>Document</label>
+                <select id="legalDocSelect" style="background:#1a1a1a;border:1px solid #222;color:var(--white);font-family:var(--font-sans);font-size:13px;padding:11px 14px;outline:none;width:100%;box-sizing:border-box;">
+                  <option value="terms">Terms of Service</option>
+                  <option value="privacy">Privacy Policy</option>
+                  <option value="refund">Refund &amp; Exchange Policy</option>
+                  <option value="shipping">Shipping &amp; Delivery Policy</option>
+                  <option value="company">Company Information</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label>Title</label>
+                <input type="text" id="legalTitleInput" placeholder="Terms of Service" />
+              </div>
+              <div class="admin-form-group">
+                <label>Effective Date <span style="color:var(--gray-700);font-weight:400;">(optional)</span></label>
+                <input type="text" id="legalEffectiveInput" placeholder="2026-05-14" />
               </div>
               <div class="admin-form-group admin-form-full">
-                <label>Shipping — Body</label>
-                <textarea id="policiesShippingBody" rows="6" style="background:#1a1a1a;border:1px solid #222;color:var(--white);font-family:var(--font-sans);font-size:13px;padding:11px 14px;outline:none;width:100%;resize:vertical;box-sizing:border-box;"></textarea>
-              </div>
-              <div class="admin-form-group admin-form-full">
-                <label>Returns — Heading</label>
-                <input type="text" id="policiesReturnsTitle" placeholder="Returns" />
-              </div>
-              <div class="admin-form-group admin-form-full">
-                <label>Returns — Body</label>
-                <textarea id="policiesReturnsBody" rows="6" style="background:#1a1a1a;border:1px solid #222;color:var(--white);font-family:var(--font-sans);font-size:13px;padding:11px 14px;outline:none;width:100%;resize:vertical;box-sizing:border-box;"></textarea>
+                <label>Body <span style="color:var(--gray-700);font-weight:400;">(Markdown)</span></label>
+                <textarea id="legalBodyInput" rows="20" style="background:#1a1a1a;border:1px solid #222;color:var(--white);font-family:var(--font-mono,monospace);font-size:12px;padding:11px 14px;outline:none;width:100%;resize:vertical;box-sizing:border-box;"></textarea>
               </div>
             </div>
             <div style="margin-top:20px;">
-              <button type="submit" class="admin-btn admin-btn--primary">Save Policies</button>
+              <button type="submit" class="admin-btn admin-btn--primary">Save Legal Page</button>
             </div>
           </form>
         </div>
