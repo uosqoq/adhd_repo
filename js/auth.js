@@ -76,6 +76,15 @@ const ADHD = {
     }
   },
 
+  async changePassword(currentPassword, newPassword) {
+    try {
+      await this.patch('/auth/change-password', { currentPassword, newPassword });
+      return { ok: true };
+    } catch (err) {
+      return { ok: false, error: err.message };
+    }
+  },
+
   // -------------------------------------------------------
   // PRODUCTS
   // -------------------------------------------------------

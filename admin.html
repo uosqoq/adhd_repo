@@ -703,11 +703,26 @@
 
         <div class="admin-card">
           <p class="admin-card-title">Admin Credentials</p>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <p style="font-size:13px;color:var(--gray-300);">Email: <strong>admin@adhd-club.com</strong></p>
-            <p style="font-size:13px;color:var(--gray-300);">Password: <strong>adhd2026</strong></p>
-            <p style="font-size:11px;color:var(--gray-700);margin-top:4px;">To change, run <code style="background:#1a1a1a;padding:2px 6px;">node migrate-admin-email.js</code> in the backend</p>
-          </div>
+          <p style="font-size:13px;color:var(--gray-300);">Email: <strong id="adminEmailDisplay">—</strong></p>
+          <form id="changePasswordForm" style="margin-top:18px;">
+            <div class="admin-form-grid">
+              <div class="admin-form-group admin-form-full">
+                <label>Current Password</label>
+                <input type="password" id="cpCurrent" autocomplete="current-password" required />
+              </div>
+              <div class="admin-form-group">
+                <label>New Password <span style="color:var(--gray-700);font-weight:400;">(min. 6 characters)</span></label>
+                <input type="password" id="cpNew" autocomplete="new-password" minlength="6" required />
+              </div>
+              <div class="admin-form-group">
+                <label>Confirm New Password</label>
+                <input type="password" id="cpConfirm" autocomplete="new-password" minlength="6" required />
+              </div>
+            </div>
+            <div style="margin-top:20px;">
+              <button type="submit" class="admin-btn admin-btn--primary">Change Password</button>
+            </div>
+          </form>
         </div>
       </div>
 

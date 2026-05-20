@@ -1075,6 +1075,42 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     showToast('Settings saved!');
   });
+
+  // Admin Credentials — show current email
+  const adminEmailEl = document.getElementById('adminEmailDisplay');
+  if (adminEmailEl) adminEmailEl.textContent = ADHD.getSession()?.email || '—';
+
+  document.getElementById('changePasswordForm')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const current = document.getElementById('cpCurrent').value;
+    const next    = document.getElementById('cpNew').value;
+    const confirm = document.getElementById('cpConfirm').value;
+
+    if (next.length < 6) {
+      showToast('New password must be at least 6 characters', 'error');
+      return;
+    }
+    if (next !== confirm) {
+      showToast('New passwords do not match', 'error');
+      return;
+    }
+    if (next === current) {
+      showToast('New password must differ from the current one', 'error');
+      return;
+    }
+
+    const btn = e.target.querySelector('button[type=submit]');
+    btn.disabled = true;
+    const result = await ADHD.changePassword(current, next);
+    btn.disabled = false;
+
+    if (result.ok) {
+      e.target.reset();
+      showToast('Password changed successfully');
+    } else {
+      showToast(result.error || 'Could not change password', 'error');
+    }
+  });
 });
 
 // =========================================================
